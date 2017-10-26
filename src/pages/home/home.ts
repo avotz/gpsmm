@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
 import { PatientsPage } from '../patients/patients';
-
+import { AppointmentsPage } from '../appointments/appointments';
+import { ClinicsPage } from '../clinics/clinics';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -15,7 +16,7 @@ export class HomePage {
 
   appointments() {
     
-       // this.navCtrl.push(SearchMedicPage)
+        this.navCtrl.push(AppointmentsPage)
       
     
       }
@@ -28,7 +29,7 @@ export class HomePage {
       }
       offices() {
         
-          //  this.navCtrl.push(SearchClinicPage)
+         this.navCtrl.push(ClinicsPage)
           
         
           }

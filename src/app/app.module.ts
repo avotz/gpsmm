@@ -16,11 +16,16 @@ import { PatientsPage } from '../pages/patients/patients';
 import { ModalPatientPage } from '../pages/patients/modal-patient';
 import { HistoryPatientPage } from '../pages/patients/history-patient';
 import { ModalAppointmentPage } from '../pages/patients/modal-appointment';
+import { AppointmentsPage } from '../pages/appointments/appointments';
+import { ClinicsPage } from '../pages/clinics/clinics';
+import { ModalClinicPage } from '../pages/clinics/modal-clinic';
+import { ModalRequestPage } from '../pages/clinics/modal-request';
 
 import { NetworkServiceProvider } from '../providers/network-service/network-service';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 import { PatientServiceProvider } from '../providers/patient-service/patient-service';
 import { AppointmentServiceProvider } from '../providers/appointment-service/appointment-service';
+import { ClinicServiceProvider } from '../providers/clinic-service/clinic-service';
 @NgModule({
   declarations: [
     MyApp,
@@ -29,7 +34,11 @@ import { AppointmentServiceProvider } from '../providers/appointment-service/app
     PatientsPage,
     ModalPatientPage,
     HistoryPatientPage,
-    ModalAppointmentPage
+    ModalAppointmentPage,
+    AppointmentsPage,
+    ClinicsPage,
+    ModalClinicPage,
+    ModalRequestPage
   ],
   imports: [
     BrowserModule,
@@ -44,7 +53,11 @@ import { AppointmentServiceProvider } from '../providers/appointment-service/app
     PatientsPage,
     ModalPatientPage,
     HistoryPatientPage,
-    ModalAppointmentPage
+    ModalAppointmentPage,
+    AppointmentsPage,
+    ClinicsPage,
+    ModalClinicPage,
+    ModalRequestPage
   ],
   providers: [
     StatusBar,
@@ -57,6 +70,7 @@ import { AppointmentServiceProvider } from '../providers/appointment-service/app
     AuthServiceProvider,
     PatientServiceProvider,
     AppointmentServiceProvider,
+    ClinicServiceProvider,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     {provide: LOCALE_ID, useValue: 'es-CR'},
   ]

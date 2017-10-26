@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-navbar>
+      
+      <ion-title>Consultorios</ion-title>
+      <ion-buttons end>
+        <button ion-button icon-only color="royal" (click)="newClinic()">
+          <ion-icon name="add-circle"></ion-icon>
+        </button>
+        <button ion-button icon-only color="royal" (click)="newRequestOffice()">
+            
+            <ion-icon name="send"></ion-icon>
+            </button>
+      </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+
+
+<ion-content padding>
+  <ion-list>
+      <ion-item *ngIf="!clinics.length > 0" class="errors">
+          <span>No se encontraron consultorios</span>
+      </ion-item>
+      
+      <ion-item *ngFor="let item of clinics">
+        <h2>{{item.name}}</h2>
+        <p>{{item.address}}</p>
+        
+        <button ion-button icon-only item-end clear (click)="presentOptions(item)">
+          <ion-icon name="more"></ion-icon>
+        </button>
+      </ion-item>
+
+      
+
+  </ion-list>
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

@@ -20,6 +20,11 @@ export class HistoryPatientPage {
   submitAttempt: boolean = false;
   shownGroup = null;
   medical_control: string = "history";
+  allergies: any;
+  pathologicals: any;
+  no_pathologicals: any;
+  heredos: any;
+  ginecos: any;
   constructor(public navCtrl: NavController, public navParams: NavParams, public patientService: PatientServiceProvider, public loadingCtrl: LoadingController, public modalCtrl: ModalController, public toastCtrl: ToastController, public actionSheetCtrl: ActionSheetController, public networkService: NetworkServiceProvider) {
 
     this.navCtrl = navCtrl;
@@ -47,11 +52,11 @@ export class HistoryPatientPage {
           this.appointments = data.appointments;
           //this.labresults = data.labresults;
           // this.history = data.history;
-          // this.allergies = this.history.allergies;
-          // this.pathologicals = this.history.pathologicals;
-          // this.no_pathologicals = this.history.nopathologicals;
-          // this.heredos = this.history.heredos;
-          // this.ginecos = this.history.ginecos;
+           this.allergies = data.history.allergies;
+           this.pathologicals = data.history.pathologicals;
+           this.no_pathologicals = data.history.nopathologicals;
+           this.heredos = data.history.heredos;
+           this.ginecos = data.history.ginecos;
           loader.dismissAll();
           
           if(refresher)
@@ -87,7 +92,7 @@ export class HistoryPatientPage {
   }
 
   openAppointmentDetail(appointment){
-    this.navCtrl.push(ModalAppointmentPage, appointment);
+    this.navCtrl.push(ModalAppointmentPage, {appointment: appointment, patient: this.patient});
   }
 
   

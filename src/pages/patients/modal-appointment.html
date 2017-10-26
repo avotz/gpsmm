@@ -19,6 +19,12 @@
                 <ion-note item-end>{{dateFormat(appointment.date)}} </ion-note>
              
             </ion-item>
+            <ion-item >
+                <h2>Paciente: {{patient.fullname}}</h2>
+                <p>{{patient.birth_date}} - {{genderFormat(patient.gender)}}</p>
+               
+             
+            </ion-item>
             <ion-card>
                     <ion-card-header (click)="toggleGroup(1)" [ngClass]="{active: isGroupShown(1)}" class="vital_signs">
                             Signos Vitales
@@ -191,11 +197,11 @@
     </ion-card>
     <ion-card>
         <ion-card-header (click)="toggleGroup(7)" [ngClass]="{active: isGroupShown(7)}" class="labresults">
-            Examenes de laboratorio
+            Pruebas Diagnósticas
             <ion-icon color="light" item-right [name]="isGroupShown(7) ? 'arrow-dropdown' : 'arrow-dropright'"></ion-icon>
         </ion-card-header>
         <ion-card-content *ngIf="isGroupShown(7)">
-            
+               
                 <ion-item *ngFor="let item of labexams" >
                         <h2>{{ dateFormat(item.date) }}</h2>
                         <ul>
@@ -209,7 +215,7 @@
                         
                 
                 </ion-item>
-                <h2>Resultados</h2>
+                <h2><b>Resultados</b></h2>
                 <ul>
                     <li *ngFor="let item of labresults">
                             <a href="#" (click)="showResult(item)"><b>{{ dateFormat(item.date) }} - {{ item.name }}</b></a>

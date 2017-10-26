@@ -75,16 +75,20 @@ export class AppointmentServiceProvider {
 
        
     }
-    getAppointments() {
-      
-      
+    getAppointments(page) {
+        
+         let search = {
+            page: page ? page : 1,
+             
+          }
+          
           let headers = new Headers({
               'Accept': 'application/json',
               'Authorization': 'Bearer ' + window.localStorage.getItem('token')
           }),
   
-              options = new RequestOptions({ headers: headers });
-  
+            
+          options = new RequestOptions({headers: headers,params: search});
   
           return this.http.get(SERVER_URL + '/api/medic/appointments', options)
               .map(res => res.json())

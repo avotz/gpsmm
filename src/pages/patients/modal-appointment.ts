@@ -24,10 +24,13 @@ export class ModalAppointmentPage {
   labresults: any = [];
   files: any = [];
   storageDirectory: string;
+  patient:any;
+
   constructor(public platform: Platform, public navParams: NavParams, public viewCtrl: ViewController, public toastCtrl: ToastController, public patientService: PatientServiceProvider, public appointmentService: AppointmentServiceProvider, public loadingCtrl: LoadingController, public networkService: NetworkServiceProvider, private photoViewer: PhotoViewer, public iab: InAppBrowser) {
 
-    this.appointment = this.navParams.data;
-
+    this.appointment = this.navParams.data.appointment;
+    this.patient = this.navParams.data.patient;
+   
 
     this.authUser = JSON.parse(window.localStorage.getItem('auth_user'));
 
@@ -40,9 +43,11 @@ export class ModalAppointmentPage {
       });
 
       loader.present();
+     
       this.appointmentService.findById(this.appointment.id)
         .then(resp => {
           this.appointment = resp.appointment;
+          
           this.vitalSigns = resp.vitalSigns;
           this.labexams = resp.labexams;
           this.labresults = resp.labresults;
@@ -50,7 +55,20 @@ export class ModalAppointmentPage {
           this.isWaiting = null;
           loader.dismissAll();
         })
-        .catch(error => alert(JSON.stringify(error)));
+        .catch(error => {
+
+          let message = 'Ha ocurrido un error en consultado la cita';
+          
+                  let toast = this.toastCtrl.create({
+                    message: message,
+                    cssClass: 'mytoast error',
+                    duration: 3000
+                  });
+          
+                  toast.present(toast);
+                  loader.dismiss();
+
+        });
     }
 
 
@@ -74,6 +92,9 @@ export class ModalAppointmentPage {
   }
   dateFormat(date) {
     return moment(date).format('YYYY-MM-DD');
+  }
+  genderFormat(gender) {
+    return (gender == 'f') ? 'Femenino' : 'Masculino';
   }
   // download(item) {
   //   const fileTransfer: TransferObject = this.transfer.create();

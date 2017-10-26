@@ -1,0 +1,65 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Detalle Clínica
+    </ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+          <span ion-text color="primary" showWhen="ios">Cancel</span>
+          <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+        </button>
+       
+
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <p *ngIf="errorSave" style="color: #ea6153;">{{ errorSave }}</p>
+  <form [formGroup]="requestForm">
+    <ion-row>
+      <ion-col>
+        <ion-list inset>
+
+          <ion-item>
+            <ion-label floating>Nombre</ion-label>
+            <ion-input formControlName="name" type="text" [class.invalid]="!requestForm.controls.name.valid && (requestForm.controls.name.dirty || submitAttempt)" ></ion-input>
+          </ion-item>
+
+          <p *ngIf="!requestForm.controls.name.valid  && (requestForm.controls.name.dirty || submitAttempt)" class="error">Por favor ingrese un nombre</p>
+
+          <ion-item>
+            <ion-label floating>Dirección</ion-label>
+            <ion-input formControlName="address" type="text" [class.invalid]="!requestForm.controls.address.valid && (requestForm.controls.address.dirty || submitAttempt)" ></ion-input>
+          </ion-item>
+
+          <p *ngIf="!requestForm.controls.address.valid  && (requestForm.controls.address.dirty || submitAttempt)" class="error">Por favor ingrese una dirección.</p>
+
+
+          <ion-item>
+            <ion-label floating>Teléfono (Celular)</ion-label>
+            <ion-input formControlName="phone" type="text" [class.invalid]="!requestForm.controls.phone.valid && (requestForm.controls.phone.dirty || submitAttempt)"></ion-input>
+          </ion-item>
+
+          <p *ngIf="!requestForm.controls.phone.valid  && (requestForm.controls.phone.dirty || submitAttempt)" class="error">Por favor ingrese un teléfono.</p>
+
+
+
+
+        </ion-list>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col class="signup-col">
+        <button ion-button class="submit-btn" full (click)="send()">Enviar</button>
+        
+      </ion-col>
+    </ion-row>
+
+  </form>
+  <div class="loading">
+    <ion-spinner *ngIf="isWaiting"></ion-spinner>
+  </div>
+
+</ion-content>
