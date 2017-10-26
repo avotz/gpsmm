@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Inicio</ion-title>
+    <ion-buttons end>
+        <button ion-button (click)="review()" color="primary" icon-left>
+            <ion-icon name="heart" end></ion-icon>
+                Califica
+            </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  
+
+   <button ion-button full icon-left color="celeste" large (click)="appointments()">
+    <ion-icon name="people"></ion-icon>
+    Consultas
+  </button>
+   <button ion-button full icon-left color="verde" large (click)="patients()">
+    <ion-icon name="home"></ion-icon>
+    Pacientes
+  </button>
+   <button ion-button full icon-left color="amarillo" large (click)="offices()">
+    <ion-icon name="list"></ion-icon>
+    Consultorios
+  </button>
+   
+  
+</ion-content>
+
+

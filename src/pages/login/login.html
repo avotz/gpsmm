@@ -1,0 +1,54 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Inicio de Sesión - Médicos</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+   <ion-row class="errors-row">
+    <div *ngIf="errorAuth" class="errors">
+      <span>{{ errorAuth }}</span>
+    </div>
+  </ion-row>
+  <div class="logo">
+    <img src="assets/img/logo.png" alt="GPS Médica">
+  </div>
+	<div class="login-box">
+    <form [formGroup]="loginForm">
+      <ion-row>
+        <ion-col>
+          <ion-list inset>
+            
+            <ion-item>
+              <ion-input formControlName="email" type="email" [class.invalid]="!loginForm.controls.email.valid && (loginForm.controls.email.dirty || submitAttempt)" email="true" placeholder="Correo"  required></ion-input>
+            </ion-item>
+            <p *ngIf="!loginForm.controls.email.valid  && (loginForm.controls.email.dirty || submitAttempt)" class="error">Por favor ingrese un correo válido.</p>
+            
+            
+            <ion-item>
+              <ion-input formControlName="password" type="password" [class.invalid]="!loginForm.controls.email.valid && (loginForm.controls.password.dirty || submitAttempt)" placeholder="Contraseña" name="password" [(ngModel)]="password" required></ion-input>
+            </ion-item>
+            <p *ngIf="!loginForm.controls.password.valid  && (loginForm.controls.password.dirty || submitAttempt)" class="error">Por favor ingrese una Contraseña.</p>
+            
+          </ion-list>
+        </ion-col>
+      </ion-row>
+      
+      <ion-row>
+        <ion-col class="signup-col">
+          <button ion-button class="submit-btn" full (click)="login()">Iniciar</button>
+          
+        </ion-col>
+      </ion-row>
+      
+      
+    </form>
+    <ion-row>
+        
+     </ion-row> 
+   
+  </div>
+</ion-content>
