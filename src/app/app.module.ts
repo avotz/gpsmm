@@ -8,6 +8,7 @@ import { Network } from '@ionic-native/network';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { Geolocation } from '@ionic-native/geolocation';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -20,7 +21,7 @@ import { AppointmentsPage } from '../pages/appointments/appointments';
 import { ClinicsPage } from '../pages/clinics/clinics';
 import { ModalClinicPage } from '../pages/clinics/modal-clinic';
 import { ModalRequestPage } from '../pages/clinics/modal-request';
-
+import { AssignmentClinicPage } from '../pages/clinics/assignment-clinic';
 import { NetworkServiceProvider } from '../providers/network-service/network-service';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 import { PatientServiceProvider } from '../providers/patient-service/patient-service';
@@ -38,7 +39,8 @@ import { ClinicServiceProvider } from '../providers/clinic-service/clinic-servic
     AppointmentsPage,
     ClinicsPage,
     ModalClinicPage,
-    ModalRequestPage
+    ModalRequestPage,
+    AssignmentClinicPage
   ],
   imports: [
     BrowserModule,
@@ -57,7 +59,8 @@ import { ClinicServiceProvider } from '../providers/clinic-service/clinic-servic
     AppointmentsPage,
     ClinicsPage,
     ModalClinicPage,
-    ModalRequestPage
+    ModalRequestPage,
+    AssignmentClinicPage
   ],
   providers: [
     StatusBar,
@@ -66,6 +69,7 @@ import { ClinicServiceProvider } from '../providers/clinic-service/clinic-servic
     Diagnostic,
     InAppBrowser,
     PhotoViewer,
+    Geolocation,
     NetworkServiceProvider,
     AuthServiceProvider,
     PatientServiceProvider,

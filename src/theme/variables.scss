@@ -121,3 +121,6 @@ $colors: (
 .mytoast.success .toast-wrapper{
  background-color: map-get($colors, secondary);
 }
+.text-center{
+  text-align: center;
+}

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { Platform, NavParams, ViewController, ToastController, LoadingController, NavController } from 'ionic-angular';
+import { Platform, NavParams, ViewController, ToastController, LoadingController, NavController, AlertController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Geolocation } from '@ionic-native/geolocation';
 import { ClinicServiceProvider } from '../../providers/clinic-service/clinic-service';
 import { NetworkServiceProvider } from '../../providers/network-service/network-service';
 import { provinces } from '../../providers/provinces';
@@ -20,7 +21,8 @@ export class ModalClinicPage {
     errorSave;
     submitAttempt: boolean = false;
     isSaved: boolean = false;
-    constructor(public platform: Platform, public navParams: NavParams, public navCtrl: NavController, public viewCtrl: ViewController, public toastCtrl: ToastController, public clinicService: ClinicServiceProvider, public loadingCtrl: LoadingController, public formBuilder: FormBuilder, public networkService: NetworkServiceProvider) {
+    located = null;
+    constructor(public platform: Platform, public navParams: NavParams, public navCtrl: NavController, public viewCtrl: ViewController, public toastCtrl: ToastController, public clinicService: ClinicServiceProvider, public loadingCtrl: LoadingController, public formBuilder: FormBuilder, public networkService: NetworkServiceProvider, public alertCtrl: AlertController, public geolocation: Geolocation) {
 
         this.clinic = this.navParams.data;
         if(this.clinic.province)
@@ -211,6 +213,64 @@ export class ModalClinicPage {
     
         });
     
+      }
+
+    
+      onGetGeolocalitation() {
+        if (this.networkService.noConnection()) {
+          this.networkService.showNetworkAlert();
+        } else {
+    
+              let loader = this.loadingCtrl.create({
+                content: "Buscando Coordenadas. Espere por favor...",
+                //duration: 3000
+              });
+              loader.present();
+              let options = {
+                timeout: 60000
+              }
+              this.geolocation.getCurrentPosition(options).then((position) => {
+    
+                console.log(position.coords.latitude, position.coords.longitude);
+    
+                //this.medicSearchForm.value.lat = position.coords.latitude
+                //this.medicSearchForm.value.lon = position.coords.longitude
+                this.clinicForm.get('lat').setValue(position.coords.latitude)
+                this.clinicForm.get('lon').setValue(position.coords.longitude)
+                this.located = true;
+    
+                loader.dismiss();
+               
+    
+              }, (err) => {
+                loader.dismiss();
+    
+                let locationAlert = this.alertCtrl.create({
+                  title: 'La aplicación tardo mucho en encontrar las coordenadas!',
+                  subTitle: 'Por favor verifica que tu GPS este activo',
+                  buttons:  [
+                    {
+                      text: 'Cancelar',
+                      handler: () => {
+                        this.clinicForm.get('lat').setValue('')
+                        this.clinicForm.get('lon').setValue('')
+                        this.located = null
+                      }
+                    },
+                    {
+                      text: 'Reintentar',
+                      handler: () => {
+                        this.onGetGeolocalitation()
+                      }
+                    }
+                  ]
+                });
+    
+                locationAlert.present();
+                console.log(err);
+              });
+          
+        }
       }
 
    

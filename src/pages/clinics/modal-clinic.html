@@ -72,8 +72,30 @@
           <p *ngIf="!clinicForm.controls.phone.valid  && (clinicForm.controls.phone.dirty || submitAttempt)" class="error">Por favor ingrese un teléfono.</p>
 
 
-
-
+          <ion-grid>
+            
+            <ion-row>
+                <ion-col col-6>
+                  <ion-item>
+                    <ion-label floating>Latitud</ion-label>
+                    <ion-input formControlName="lat" type="text" disabled="{{ isPrivate() }}"></ion-input>
+                  </ion-item>
+                </ion-col>
+                <ion-col col-6>
+                  <ion-item>
+                    <ion-label floating>Longitud</ion-label>
+                    <ion-input formControlName="lon" type="text" disabled="{{ isPrivate() }}"></ion-input>
+                  </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row class="text-center">
+                <a ion-button (click)="onGetGeolocalitation()" full color="{{ located ? 'secondary' : 'light' }}"  *ngIf=" !isPrivate() " icon-left center>
+                    <ion-icon name="locate"></ion-icon>   
+                    Ubicación actual
+                </a>
+            </ion-row>
+          </ion-grid>
+         
         </ion-list>
       </ion-col>
     </ion-row>
@@ -86,7 +108,7 @@
     </ion-row>
 
   </form>
-  <div class="loading">
+  <div class="loading text-center">
     <ion-spinner *ngIf="isWaiting"></ion-spinner>
   </div>
 

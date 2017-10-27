@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController, ModalController, ToastController, ActionSheetController } from 'ionic-angular';
 import { ModalClinicPage } from './modal-clinic';
 import { ModalRequestPage } from './modal-request';
+import { AssignmentClinicPage } from './assignment-clinic';
+
 import { ClinicServiceProvider } from '../../providers/clinic-service/clinic-service';
 import { NetworkServiceProvider } from '../../providers/network-service/network-service';
 import moment from 'moment'
@@ -80,6 +82,13 @@ export class ClinicsPage {
      
     }
 
+  }
+  newAssignment(){
+    
+    this.navCtrl.push(AssignmentClinicPage);
+
+    
+    
   }
   newRequestOffice(){
     

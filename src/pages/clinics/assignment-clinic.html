@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Asignacion de clínica
+    </ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+          <span ion-text color="primary" showWhen="ios">Cancel</span>
+          <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+        </button>
+       
+
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  
+        <ion-searchbar (ionInput)="getClinics($event)"></ion-searchbar>
+        <ion-list>
+          <ion-item *ngFor="let item of clinics">
+            {{ item.name }}
+          </ion-item>
+          <ion-item *ngIf="!clinics.length > 0" class="errors" text-wrap>
+                <span>Agrega los consultorios donde brindarás consulta privada. Si el nombre de la "Clínica privada" no aparece, puedes solicitar integrarla al sistema. Nos pondremos en contacto con el administrador para crear la clínica lo antes posible.</span>
+            </ion-item>
+        </ion-list>
+  <div class="loading text-center">
+    <ion-spinner *ngIf="isWaiting"></ion-spinner>
+  </div>
+
+</ion-content>
