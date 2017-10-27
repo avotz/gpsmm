@@ -15,5 +15,10 @@ modal-patient {
         border: 0;
         margin-bottom: 0;
       }
+      p.warning{
+        color: map-get($colors, amarillo);
+        border: 0;
+        margin-bottom: 0;
+      }
     
 }

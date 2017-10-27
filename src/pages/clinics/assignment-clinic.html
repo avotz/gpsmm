@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-navbar>
     <ion-title>
       Asignacion de clínica
     </ion-title>
@@ -8,10 +8,13 @@
           <span ion-text color="primary" showWhen="ios">Cancel</span>
           <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
         </button>
-       
+        <button ion-button (click)="goHome()" color="primary">
+          
+              Ir a Inicio
+          </button>
 
     </ion-buttons>
-  </ion-toolbar>
+  </ion-navbar>
 </ion-header>
 
 <ion-content padding>
@@ -20,9 +23,10 @@
         <ion-list>
           <ion-item *ngFor="let item of clinics">
             {{ item.name }}
+            <button ion-button clear item-end (click)="assignOffice(item)">Agregar</button>
           </ion-item>
           <ion-item *ngIf="!clinics.length > 0" class="errors" text-wrap>
-                <span>Agrega los consultorios donde brindarás consulta privada. Si el nombre de la "Clínica privada" no aparece, puedes solicitar integrarla al sistema. Nos pondremos en contacto con el administrador para crear la clínica lo antes posible.</span>
+                <span>Agrega los consultorios donde brindarás consulta privada. Si el nombre de la "Clínica privada" no aparece, puedes <a (click)="newRequestOffice()" ><b>solicitar integrarla al sistema</b> </a> . Nos pondremos en contacto con el administrador para crear la clínica lo antes posible. o puedes crear un <a (click)="newClinic()" ><b>consultorio independiente</b></a></span>
             </ion-item>
         </ion-list>
   <div class="loading text-center">

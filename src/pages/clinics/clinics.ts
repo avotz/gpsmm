@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController, ModalController, ToastController, ActionSheetController } from 'ionic-angular';
 import { ModalClinicPage } from './modal-clinic';
-import { ModalRequestPage } from './modal-request';
 import { AssignmentClinicPage } from './assignment-clinic';
 
 import { ClinicServiceProvider } from '../../providers/clinic-service/clinic-service';
@@ -44,7 +43,7 @@ export class ClinicsPage {
 
       //this.medicSearchForm.get('page').setValue(this.currentPage + 1)
 
-      this.clinicService.findAll(this.currentPage + 1)
+      this.clinicService.findAllByMedic(this.currentPage + 1)
       .then(data => {
         
         // console.log(data)
@@ -85,45 +84,28 @@ export class ClinicsPage {
   }
   newAssignment(){
     
-    this.navCtrl.push(AssignmentClinicPage);
-
-    
-    
-  }
-  newRequestOffice(){
-    
-    //this.navCtrl.push(ModalClinicPage, clinic);
-
-    let modal = this.modalCtrl.create(ModalRequestPage);
+    //this.navCtrl.push(AssignmentClinicPage);
+    let modal = this.modalCtrl.create(AssignmentClinicPage);
     modal.onDidDismiss(data => {
       
-            if (data)
-              this.getClinicsFromUser();
-      
+           
+        if(data && data.toHome)
+          this.goHome()
+        
+        if (data && data.saved)
+            this.getClinicsFromUser();
+            
+           
           
       
           });
 
     modal.present();
     
-  }
-  newClinic(){
-    
-    //this.navCtrl.push(ModalClinicPage, clinic);
-
-    let modal = this.modalCtrl.create(ModalClinicPage);
-    modal.onDidDismiss(data => {
-      
-            if (data)
-              this.getClinicsFromUser();
-      
-          
-      
-          });
-
-    modal.present();
     
   }
+ 
+  
  
   openClinicDetail(clinic){
     
@@ -187,7 +169,7 @@ export class ClinicsPage {
     });
 
     loader.present();
-    this.clinicService.findAll(this.currentPage)
+    this.clinicService.findAllByMedic(this.currentPage)
       .then(data => {
         
         // console.log(data)

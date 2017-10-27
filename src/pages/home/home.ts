@@ -33,8 +33,8 @@ export class HomePage {
           
         
           }
-      review(){
-        //this.navCtrl.push(ReviewPage);
+      agenda(){
+        alert('En desarrollo')
       }
 
 }

@@ -35,7 +35,7 @@ export class ModalPatientPage {
             address: [this.patient.address],
             province: [this.patient.province, Validators.required],
             city: [this.patient.city],
-            conditions: [this.patient.conditions],
+            password: ['123456',Validators.required],
 
         });
 
@@ -154,7 +154,7 @@ export class ModalPatientPage {
                             let toast = this.toastCtrl.create({
                                message: message,
                                cssClass: 'mytoast error',
-                               duration: 3000
+                               duration: 3500
                              });
                    
                              toast.present(toast);

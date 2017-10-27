@@ -26,6 +26,24 @@ export class ClinicServiceProvider {
               options = new RequestOptions({headers: headers,params: search});
 
 
+        return this.http.get(SERVER_URL + '/api/medic/offices/list', options)
+            .map(res => res.json())
+            .toPromise();
+
+       
+    }
+    findAllByMedic(search) {
+        
+          /*let params = {
+            q: search,
+             
+          }*/
+          let headers = new Headers({'Accept': 'application/json',
+                   'Authorization': 'Bearer '+ window.localStorage.getItem('token')}),
+
+              options = new RequestOptions({headers: headers,params: search});
+
+
         return this.http.get(SERVER_URL + '/api/medic/offices', options)
             .map(res => res.json())
             .toPromise();
@@ -47,6 +65,24 @@ export class ClinicServiceProvider {
 
      
   }
+  assignOffice(office) {
+    
+            let headers = new Headers({
+                'Accept': 'application/json',
+                'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+            }),
+    
+                options = new RequestOptions({ headers: headers });
+    
+    
+    
+            return this.http.post(SERVER_URL + '/api/medic/offices/'+ office +'/assign',{}, options)
+                .map(res => res.json())
+                .toPromise();
+    
+    
+    
+        }
   register(form) {
     
             let headers = new Headers({
