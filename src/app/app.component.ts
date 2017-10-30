@@ -7,6 +7,7 @@ import { HomePage } from '../pages/home/home';
 import { PatientsPage } from '../pages/patients/patients';
 import { AppointmentsPage } from '../pages/appointments/appointments';
 import { ClinicsPage } from '../pages/clinics/clinics';
+import { AccountPage } from '../pages/account/account';
 @Component({
   templateUrl: 'app.html'
 })
@@ -31,6 +32,7 @@ export class MyApp {
       { title: 'Consultas', component: AppointmentsPage },
       { title: 'Paciente', component: PatientsPage },
       { title: 'Consultorios', component: ClinicsPage },
+      { title: 'Cuenta', component: AccountPage },
       
     ];
    

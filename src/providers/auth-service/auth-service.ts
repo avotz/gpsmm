@@ -37,7 +37,7 @@ export class AuthServiceProvider {
 
         options = new RequestOptions({headers: headers});
        
-       return this.http.put(SERVER_URL + '/api/account/edit', form, options)
+       return this.http.put(SERVER_URL + '/api/medic/account', form, options)
            .map(res => res.json())
           .toPromise();
 
@@ -52,13 +52,31 @@ export class AuthServiceProvider {
 
       options = new RequestOptions({headers: headers});
      
-     return this.http.put(SERVER_URL + '/api/account/updatepush', token, options)
+     return this.http.put(SERVER_URL + '/api/medic/account/updatepush', token, options)
          .map(res => res.json())
         .toPromise();
 
         
           
  }
+
+ getUser() {
+  
+  
+          let headers = new Headers({
+              'Accept': 'application/json',
+              'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+          }),
+  
+              options = new RequestOptions({ headers: headers });
+  
+  
+          return this.http.get(SERVER_URL + '/api/medic/account', options)
+              .map(res => res.json())
+              .toPromise();
+  
+  
+      }
     
 
 }
