@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Platform, NavParams, ViewController, ToastController, LoadingController, NavController,ModalController } from 'ionic-angular';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ModalRequestPage } from './modal-request';
 import { ModalClinicPage } from './modal-clinic';
 import { ClinicServiceProvider } from '../../providers/clinic-service/clinic-service';
@@ -72,7 +72,7 @@ export class AssignmentClinicPage {
 
              })
              .catch(error => {
-                 let message = 'Ha ocurrido un error agregando la clínica.';
+                  message = 'Ha ocurrido un error agregando la clínica.';
                  let errorSaveText = error.statusText;
                  
 
@@ -105,10 +105,8 @@ export class AssignmentClinicPage {
         if (this.networkService.noConnection()) {
             this.networkService.showNetworkAlert();
         } else {
-            this.submitAttempt = true;
-            let message = 'Solicitud Enviada Correctamente';
-            let styleClass = 'success';
-            
+    
+          
             if(!ev.target.value)
             {
                 this.clinics = [];
@@ -133,9 +131,8 @@ export class AssignmentClinicPage {
                  this.isWaiting = false;
              })
              .catch(error => {
-               alert(error.statusText)
-               console.log(JSON.stringify(error))
-               this.isWaiting = false;
+                
+                console.log(error);
              });
                
 

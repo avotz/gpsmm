@@ -40,6 +40,7 @@ export class AccountPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public authService: AuthServiceProvider, public loadingCtrl: LoadingController, public formBuilder: FormBuilder, public toastCtrl: ToastController, private camera: Camera, private transfer: Transfer, private file: File, private filePath: FilePath, public actionSheetCtrl: ActionSheetController, public platform: Platform, public networkService: NetworkServiceProvider) {
 
     this.navCtrl = navCtrl;
+    
     this.user = JSON.parse(window.localStorage.getItem('auth_user'));
 
     this.accountForm = formBuilder.group({
@@ -74,7 +75,9 @@ export class AccountPage {
         .then(resp => {
           
           this.user = resp;
-
+          let d = new Date();
+          this.user.photo = this.user.photo + '?' + d.getTime()
+          console.log(this.user.photo)
           window.localStorage.setItem('auth_user', JSON.stringify(resp));
 
           this.transformToForm_FreeDays(JSON.parse(this.user.settings.freeDays))
@@ -298,11 +301,12 @@ export class AccountPage {
         loader.dismissAll()
         this.presentToast('Imagen subida correctamente.');
 
-        console.log(data);
+ 
         let d = new Date();
         this.user.photo = '/storage/' + data.response + '?' + d.getTime();
         window.localStorage.setItem('auth_user', JSON.stringify(this.user));
         this.lastImage = null;
+       
       }, err => {
         loader.dismissAll()
         console.log(err);
