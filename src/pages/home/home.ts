@@ -4,6 +4,7 @@ import { NavController } from 'ionic-angular';
 import { PatientsPage } from '../patients/patients';
 import { AppointmentsPage } from '../appointments/appointments';
 import { ClinicsPage } from '../clinics/clinics';
+import { AgendaPage } from '../agenda/agenda';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -34,7 +35,7 @@ export class HomePage {
         
           }
       agenda(){
-        alert('En desarrollo')
+        this.navCtrl.push(AgendaPage)
       }
 
 }

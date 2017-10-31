@@ -13,6 +13,7 @@ import { File } from '@ionic-native/file';
 import { Transfer } from '@ionic-native/transfer';
 import { FilePath } from '@ionic-native/file-path';
 import { Camera } from '@ionic-native/camera';
+import { NgCalendarModule } from 'ionic2-calendar';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -27,12 +28,14 @@ import { ModalClinicPage } from '../pages/clinics/modal-clinic';
 import { ModalRequestPage } from '../pages/clinics/modal-request';
 import { AssignmentClinicPage } from '../pages/clinics/assignment-clinic';
 import { AccountPage } from '../pages/account/account';
+import { AgendaPage } from '../pages/agenda/agenda';
 
 import { NetworkServiceProvider } from '../providers/network-service/network-service';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 import { PatientServiceProvider } from '../providers/patient-service/patient-service';
 import { AppointmentServiceProvider } from '../providers/appointment-service/appointment-service';
 import { ClinicServiceProvider } from '../providers/clinic-service/clinic-service';
+import { MedicServiceProvider } from '../providers/medic-service/medic-service';
 @NgModule({
   declarations: [
     MyApp,
@@ -47,11 +50,13 @@ import { ClinicServiceProvider } from '../providers/clinic-service/clinic-servic
     ModalClinicPage,
     ModalRequestPage,
     AssignmentClinicPage,
-    AccountPage
+    AccountPage,
+    AgendaPage
   ],
   imports: [
     BrowserModule,
     HttpModule,
+    NgCalendarModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -68,7 +73,8 @@ import { ClinicServiceProvider } from '../providers/clinic-service/clinic-servic
     ModalClinicPage,
     ModalRequestPage,
     AssignmentClinicPage,
-    AccountPage
+    AccountPage,
+    AgendaPage
   ],
   providers: [
     StatusBar,
@@ -87,6 +93,7 @@ import { ClinicServiceProvider } from '../providers/clinic-service/clinic-servic
     PatientServiceProvider,
     AppointmentServiceProvider,
     ClinicServiceProvider,
+    MedicServiceProvider,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     {provide: LOCALE_ID, useValue: 'es-CR'},
   ]

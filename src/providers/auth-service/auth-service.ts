@@ -5,7 +5,8 @@ import {SERVER_URL} from '../config';
 
 const postData = {
           password:'',
-          email:''
+          email:'',
+          push_token:'',
        };
 
 @Injectable()
@@ -19,6 +20,7 @@ export class AuthServiceProvider {
   login(email, password){
         postData.email = email
         postData.password = password
+        postData.push_token = window.localStorage.getItem('push_token') 
        
         return this.http.post(SERVER_URL + '/api/medic/token', postData)
             .map(res => res.json())

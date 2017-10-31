@@ -1,0 +1,45 @@
+
+<ion-header>
+    <ion-navbar>
+        
+        <ion-title>Agenda</ion-title>
+        <ion-buttons end>
+            <button ion-button (click)="goHome()" color="primary">
+                
+                    Ir a Inicio
+                </button>
+        </ion-buttons>
+    </ion-navbar>
+ 
+ 
+
+</ion-header>
+
+
+<ion-content >
+    <ion-card>
+        
+        <ion-card-header>
+            Agenda
+        </ion-card-header>
+        <ion-card-content>
+            
+            <div class="header-title">
+               
+                <p>Agenda programada</p>
+                
+                
+              </div>
+
+
+        </ion-card-content>
+
+
+
+    </ion-card>
+    <h6>{{ currentDate }}</h6>
+
+  <calendar [eventSource]="eventSource" [calendarMode]="calendar.mode" [currentDate]="calendar.currentDate" (onCurrentDateChanged)="onCurrentDateChanged($event)"
+    (onEventSelected)="onEventSelected($event)" step="30" [markDisabled]="markDisabled" noEventsLabel="No hay horario programado">
+  </calendar>
+</ion-content>

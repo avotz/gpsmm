@@ -42,6 +42,9 @@ export class AccountPage {
     this.navCtrl = navCtrl;
     
     this.user = JSON.parse(window.localStorage.getItem('auth_user'));
+    this.user.specialities = [];
+
+    console.log(this.user)
 
     this.accountForm = formBuilder.group({
       name: [this.user.name, Validators.required],
@@ -77,12 +80,14 @@ export class AccountPage {
           this.user = resp;
           let d = new Date();
           this.user.photo = this.user.photo + '?' + d.getTime()
-          console.log(this.user.photo)
+
+          console.log(resp)
+         
           window.localStorage.setItem('auth_user', JSON.stringify(resp));
 
           this.transformToForm_FreeDays(JSON.parse(this.user.settings.freeDays))
           
-              console.log(this.freeDaysList);
+             
 
               this.accountForm.get('name').setValue(this.user.name)
               this.accountForm.get('email').setValue(this.user.email)
