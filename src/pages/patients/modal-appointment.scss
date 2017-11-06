@@ -9,6 +9,12 @@ modal-appointment {
         margin-left: 1rem;*/
         text-align: center
     }
+    .card-md, .card-ios{
+        background: #eee;
+        .item-md, .item-ios{
+            background: transparent;
+        }
+    }
     ion-card-header{
         background: map-get($colors, secondary);
         color: white !important;
@@ -39,5 +45,8 @@ modal-appointment {
             text-align: center;
             
         }
+    }
+    h2{
+        color: map-get($colors, verde) !important;
     }
 }
