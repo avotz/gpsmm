@@ -66,7 +66,7 @@
 
           <ion-item>
             <ion-label floating>Teléfono (Celular)</ion-label>
-            <ion-input formControlName="phone" type="text" [class.invalid]="!clinicForm.controls.phone.valid && (clinicForm.controls.phone.dirty || submitAttempt)"></ion-input>
+            <ion-input formControlName="phone" type="number" [class.invalid]="!clinicForm.controls.phone.valid && (clinicForm.controls.phone.dirty || submitAttempt)"></ion-input>
           </ion-item>
 
           <p *ngIf="!clinicForm.controls.phone.valid  && (clinicForm.controls.phone.dirty || submitAttempt)" class="error">Por favor ingrese un teléfono.</p>

@@ -29,6 +29,8 @@ import { ModalRequestPage } from '../pages/clinics/modal-request';
 import { AssignmentClinicPage } from '../pages/clinics/assignment-clinic';
 import { AccountPage } from '../pages/account/account';
 import { AgendaPage } from '../pages/agenda/agenda';
+import { ModalSchedulePage } from '../pages/agenda/modal-schedule';
+
 
 import { NetworkServiceProvider } from '../providers/network-service/network-service';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
@@ -36,6 +38,8 @@ import { PatientServiceProvider } from '../providers/patient-service/patient-ser
 import { AppointmentServiceProvider } from '../providers/appointment-service/appointment-service';
 import { ClinicServiceProvider } from '../providers/clinic-service/clinic-service';
 import { MedicServiceProvider } from '../providers/medic-service/medic-service';
+import { ScheduleServiceProvider } from '../providers/schedule-service/schedule-service';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -51,7 +55,8 @@ import { MedicServiceProvider } from '../providers/medic-service/medic-service';
     ModalRequestPage,
     AssignmentClinicPage,
     AccountPage,
-    AgendaPage
+    AgendaPage,
+    ModalSchedulePage
   ],
   imports: [
     BrowserModule,
@@ -74,7 +79,8 @@ import { MedicServiceProvider } from '../providers/medic-service/medic-service';
     ModalRequestPage,
     AssignmentClinicPage,
     AccountPage,
-    AgendaPage
+    AgendaPage,
+    ModalSchedulePage
   ],
   providers: [
     StatusBar,
@@ -94,6 +100,7 @@ import { MedicServiceProvider } from '../providers/medic-service/medic-service';
     AppointmentServiceProvider,
     ClinicServiceProvider,
     MedicServiceProvider,
+    ScheduleServiceProvider,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     {provide: LOCALE_ID, useValue: 'es-CR'},
   ]

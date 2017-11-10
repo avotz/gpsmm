@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, ModalController, LoadingController, ToastController } from 'ionic-angular';
 import { MedicServiceProvider } from '../../providers/medic-service/medic-service';
 import { NetworkServiceProvider } from '../../providers/network-service/network-service';
-//import { ModalReservationPage } from './modal-reservation';
+import { ModalSchedulePage } from './modal-schedule';
 import moment from 'moment'
 @Component({
   selector: 'page-agenda',
@@ -45,35 +45,6 @@ export class AgendaPage {
    
   }
 
-  loadAppointments(date_from, date_to) {
-    if (this.networkService.noConnection()) {
-      this.networkService.showNetworkAlert();
-    } else {
-     /* let loader = this.loadingCtrl.create({
-        content: "Espere por favor...",
-
-      });
-
-      loader.present();*/
-
-      /*this.medicService.findAppointments(this.authUser.id, this.params.clinic.id, date_from, date_to)
-        .then(data => {
-          this.appointments = [];
-
-          data.forEach(appointment => {
-
-            this.appointments.push(appointment);
-
-          });
-
-          this.loadSchedules(date_from, date_to, loader);
-
-
-        })
-        .catch(error => alert(JSON.stringify(error)));*/
-    }
-
-  }
 
   loadSchedules(date_from, date_to, loader) {
     if (this.networkService.noConnection()) {
@@ -141,92 +112,24 @@ export class AgendaPage {
 
   }
 
-  isReserved(startSchedule, endSchedule) {
-    let res = {
-       res: 0,
-       id: 0
-    };
+ openModalSchedule(){
+   
+   let modal = this.modalCtrl.create(ModalSchedulePage, { selectedDate: this.currentDate});
+   modal.onDidDismiss(data => {
 
-    for (var j = 0; j < this.appointments.length; j++) {
-
-      if (this.appointments[j].end > startSchedule && this.appointments[j].start < endSchedule) {
-
-        if (this.appointments[j].created_by == this.authUser.id){ //si fue el usuario logueado que creo la cita cambia el titulo a reservado
-          res.res = 2
-          res.id = this.appointments[j].id
-           
-        }else{ /// se pone titulo en no disponible
-    
-          res.res = 1
-          res.id = this.appointments[j].id
-        }
-      }
-
-    }
-
-    return res
-
-  }
-
-  createIntervalsFromHours(date, from, until, slot) {
-
-    until = Date.parse(date + " " + until);
-    from = Date.parse(date + " " + from);
-
-    let intervalLength = (slot) ? slot : 30;
-    let intervalsPerHour = 60 / intervalLength;
-    let milisecsPerHour = 60 * 60 * 1000;
-
-    let max = (Math.abs(until - from) / milisecsPerHour) * intervalsPerHour;
-
-    let time = new Date(from);
-    let intervals = [];
-    for (let i = 0; i <= max; i++) {
-      //doubleZeros just adds a zero in front of the value if it's smaller than 10.
-      let hour = this.doubleZeros(time.getHours());
-      let minute = this.doubleZeros(time.getMinutes());
-      intervals.push(hour + ":" + minute);
-      time.setMinutes(time.getMinutes() + intervalLength);
-    }
-    return intervals;
-  }
+     /*if (data)
+       this.getAppointmentsFromUser();*/
 
 
-  doubleZeros(item) {
 
-    return (item < 10) ? '0' + item : item;
-  }
+   });
+
+   modal.present();
+ }
+
 
   onEventSelected(evt) {
     console.log(evt)
-    if (evt.reserved == 1) return
-
-    let current = new Date();
-
-    if (evt.startTime < current && (evt.reserved == 1 || evt.reserved == 0)) {
-      let toast = this.toastCtrl.create({
-        message: 'No se puede reservar en horas pasadas',
-        cssClass: 'mytoast error',
-        duration: 3000
-      });
-      toast.present(toast);
-      return
-    }
-
-    if (evt.reserved == 2)
-      evt.show = 1;
-
-    /*let modal = this.modalCtrl.create(ModalReservationPage, evt);
-    modal.onDidDismiss(data => {
-
-      if (data.date)
-        this.onCurrentDateChanged(data.date);
-
-      if(data.toHome)
-        this.goHome()
-
-    });
-    modal.present();*/
   }
 
   onCurrentDateChanged(date) {
