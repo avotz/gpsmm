@@ -16,7 +16,7 @@
 
 
 <ion-content padding>
-  <ion-list>
+  <!-- <ion-list>
       <ion-item *ngIf="!appointments.length > 0" class="errors">
           <span>No se encontraron citas programadas</span>
       </ion-item>
@@ -30,7 +30,32 @@
 
       
 
-  </ion-list>
+  </ion-list> -->
+  <ion-item *ngIf="!appointments.length > 0" class="errors">
+    <span>No se encontraron citas programadas</span>
+  </ion-item>
+  <ion-card *ngFor="let item of appointments">
+    <ion-card-header class="diagnostics">
+       {{item.title}}
+  
+    </ion-card-header>
+ 
+      
+    <ion-list>
+      <ion-item ion-item>
+        <p>{{dateFormat(item.date)}} {{timeFormat(item.start)}} - {{timeFormat(item.end)}}</p> 
+        <p>{{item.patient.first_name }}</p>
+      </ion-item>
+      <button ion-item  (click)="openAppointmentDetail(item)">
+        <ion-icon color="primary" name="eye" ></ion-icon>
+        Ver
+      </button>
+    </ion-list>
+
+
+     
+  
+  </ion-card>
   <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>

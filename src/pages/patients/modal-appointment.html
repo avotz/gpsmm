@@ -98,7 +98,7 @@
                         <h2>Resultados</h2>
                         <ul>
                             <li *ngFor="let result of labresults">
-                                <a href="#" (click)="showImage(result)">
+                                <a href="#" (click)="showResult(result)">
                                     <b>{{ dateFormat(result.date) }} - {{ result.name }}</b>
                                 </a>
                             </li>

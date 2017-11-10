@@ -26,7 +26,10 @@
             
             <div class="header-title">
                
-                <p>Agenda programada</p>
+            <h6>{{ currentDate }}</h6>
+            <button ion-button (click)="openAppointmentDetail(item)">
+                Programar
+            </button>
                 
                 
               </div>
@@ -37,9 +40,24 @@
 
 
     </ion-card>
-    <h6>{{ currentDate }}</h6>
+   
+    
 
+<template #template2 let-view="view" let-row="row" let-col="col">
+    <div *ngIf="view.dates[row*7+col].events.length; else elseBlock" >
+        <div *ngIf="view.dates[row*7+col].events.length > 1; else elseBlock">
+            <div  [ngClass]="'multiple-events'" [ngStyle]="{'padding':'8px'}">{{view.dates[row*7+col].label}}</div>
+        </div>
+        <ng-template #elseBlock>
+            <div *ngFor="let obj of view.dates[row*7+col].events">
+                <div [ngClass]="'one-event'" [ngStyle]="{'background-color': obj.background_color,'padding':'8px'}">{{view.dates[row*7+col].label}}</div>
+            </div>
+        </ng-template>
+    </div>
+    <ng-template #elseBlock>{{view.dates[row*7+col].label}}</ng-template>
+     
+</template>
   <calendar [eventSource]="eventSource" [calendarMode]="calendar.mode" [currentDate]="calendar.currentDate" (onCurrentDateChanged)="onCurrentDateChanged($event)"
-    (onEventSelected)="onEventSelected($event)" step="30" [markDisabled]="markDisabled" noEventsLabel="No hay horario programado">
+    (onEventSelected)="onEventSelected($event)" step="30" [markDisabled]="markDisabled" noEventsLabel="No hay horario programado" [monthviewDisplayEventTemplate]="template2">
   </calendar>
 </ion-content>

@@ -82,14 +82,14 @@ export class AgendaPage {
       this.medicService.findSchedules(this.authUser.id, date_from, date_to)
         .then(data => {
           this.schedules = data;
-          
+          let events = [];
           data.forEach(schedule => {
 
         
-            let events = [];
+            
             let title = schedule.office.name;
            
-       
+           
           
               let event = {
                 title: title,
@@ -104,7 +104,7 @@ export class AgendaPage {
                 medic_id: schedule.user_id,
                 office: schedule.office,
                 medic: schedule.user,
-                
+                background_color: schedule.backgroundColor
 
               }
 
@@ -112,10 +112,12 @@ export class AgendaPage {
 
          
 
-            this.eventSource = events;
+           
 
 
           });
+          
+          this.eventSource = events;
 
           loader.dismiss();
 
@@ -229,11 +231,12 @@ export class AgendaPage {
 
   onCurrentDateChanged(date) {
 
-    let dateFrom = moment(date).format('YYYY-MM-DD');
-    let dateTo = dateFrom; //moment(lastDay).format('YYYY-MM-DD');
-    this.currentDate = dateFrom;
+    let dateFrom = moment(date).startOf('month').format('YYYY-MM-DD');
+    let dateTo = moment(date).endOf('month').format('YYYY-MM-DD');
+    this.currentDate = moment(date).format('YYYY-MM-DD');
 
     console.log(dateFrom + ' - ' + dateTo)
+    //console.log(moment(date).endOf('month').format('YYYY-MM-DD'));
     //this.loadAppointments(dateFrom, dateTo);
     let loader = this.loadingCtrl.create({
       content: "Espere por favor...",

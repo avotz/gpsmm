@@ -10,5 +10,21 @@ page-agenda {
     h4, h6{
         text-align: center;
     }
+     .monthview-primary-with-event[_ngcontent-c1]{
+        position: relative;
+        padding: 0px !important;
+    }
+    .monthview-selected[_ngcontent-c1]{ background-color: map-get($colors, primary);}
+    
+     .multiple-events{
+        background-color: red;
+    }
+    .monthview-selected{
+
+        .multiple-events, .one-event{
+            background-color: transparent !important;
+        }
+    }
+   
     
 }

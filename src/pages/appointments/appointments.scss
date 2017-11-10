@@ -1,5 +1,20 @@
-page-patients {
+page-appointments {
     .errors{
         text-align: center;
     }
+    ion-card-header{
+        background: map-get($colors, secondary);
+        color: white !important;
+    }
+    ion-card{
+        ion-list{
+             button{
+                 ion-label{
+                 color: map-get($colors, primary);
+                 }
+             }
+        }
+    }
+   
+    
 }
