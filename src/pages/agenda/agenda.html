@@ -26,10 +26,11 @@
             
             <div class="header-title">
                
-            <h6>{{ currentDate }}</h6>
+            
             <button ion-button (click)="openModalSchedule()">
                 Programar
             </button>
+            <h3><b>{{ currentDate }}</b></h3>
                 
                 
               </div>
@@ -43,7 +44,7 @@
    
     
 
-<template #template2 let-view="view" let-row="row" let-col="col">
+<ng-template #template2 let-view="view" let-row="row" let-col="col">
     <div *ngIf="view.dates[row*7+col].events.length; else elseBlock" >
         <div *ngIf="view.dates[row*7+col].events.length > 1; else elseBlock">
             <div  [ngClass]="'multiple-events'" [ngStyle]="{'padding':'8px'}">{{view.dates[row*7+col].label}}</div>
@@ -56,7 +57,7 @@
     </div>
     <ng-template #elseBlock>{{view.dates[row*7+col].label}}</ng-template>
      
-</template>
+</ng-template>
   <calendar [eventSource]="eventSource" [calendarMode]="calendar.mode" [currentDate]="calendar.currentDate" (onCurrentDateChanged)="onCurrentDateChanged($event)"
     (onEventSelected)="onEventSelected($event)" step="30" [markDisabled]="markDisabled" noEventsLabel="No hay horario programado" [monthviewDisplayEventTemplate]="template2">
   </calendar>

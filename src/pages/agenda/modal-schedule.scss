@@ -13,4 +13,9 @@ modal-schedule {
         background: map-get($colors, secondary);
         color: white !important;
     }
+    p.error{
+        color: #ea6153;
+        border: 0;
+        margin-bottom: 0;
+      }
 }

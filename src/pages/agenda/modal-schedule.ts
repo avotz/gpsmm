@@ -19,7 +19,8 @@ export class ModalSchedulePage {
     reminder: any;
     authUser: any;
     clinics: any[] = [];
-    ClinicSelected: any;
+    clinicSelected: any;
+    clinicColorSelected: string = '#00c0ef';
     isWaiting: boolean = null;
     scheduleForm: FormGroup;
     currentPage: any = 1;
@@ -27,6 +28,8 @@ export class ModalSchedulePage {
     currentDate: any;
     rangeMinutes: string = '0, 30';
     step: any;
+    submitAttempt: boolean = false;
+    isSaved: boolean = false;
     constructor(public platform: Platform, public navParams: NavParams, public viewCtrl: ViewController, public toastCtrl: ToastController, public clinicService: ClinicServiceProvider, public scheduleService: ScheduleServiceProvider, public medicService: MedicServiceProvider, public loadingCtrl: LoadingController, public networkService: NetworkServiceProvider, public navCtrl: NavController, public formBuilder: FormBuilder) {
       
         this.currentDate = this.navParams.data.selectedDate;
@@ -41,29 +44,17 @@ export class ModalSchedulePage {
             this.rangeMinutes = this.range(0, 120, this.step).join()
 
         
-        let dateFrom = moment(this.currentDate).startOf('month').format('YYYY-MM-DD');
-        let dateTo = moment(this.currentDate).endOf('month').format('YYYY-MM-DD');
-      
-
-        console.log(dateFrom + ' - ' + dateTo)
-       
-        let loader = this.loadingCtrl.create({
-            content: "Espere por favor...",
-
-        });
-
-        loader.present();
-        this.loadSchedules(dateFrom, dateTo, loader);
+        this.getClinicsFromUser();
 
 
         this.scheduleForm = formBuilder.group({
             title: [''],
             office_id: ['', Validators.required],
             date: ['', Validators.required],
-            start: ['', Validators.required],
-            end: ['', Validators.required],
-            backgroundColor: '#00a65a', //Success ('#00a65a')
-            borderColor: '#00a65a',
+            ini: ['', Validators.required],
+            fin: ['', Validators.required],
+            backgroundColor: ['#00a65a'],  //Success ('#00a65a')
+            borderColor: ['#00a65a'],
         
 
 
@@ -77,15 +68,7 @@ export class ModalSchedulePage {
         while (b < stop) { b += step; a.push(b) }
         return a;
     };
-    generate_stepsTime(step) {
-        var dt = new Date(1970, 0, 1, 0, 0, 0, 0),
-            rc = [];
-        while (dt.getDate() == 1) {
-            rc.push(dt.getMinutes() + step);
-            //dt.setMinutes(dt.getMinutes() + step);
-        }
-        return rc;
-    }
+   
     loadSchedules(date_from, date_to, loader) {
         if (this.networkService.noConnection()) {
             this.networkService.showNetworkAlert();
@@ -128,20 +111,34 @@ export class ModalSchedulePage {
             loader.present();
             this.clinicService.findAllByMedic(this.currentPage)
                 .then(data => {
-
+                   
                     // console.log(data)
                     // this.scheduledAppointments = data//.scheduledAppointments;
                     // loader.dismiss();
                     this.clinics = [];
-                    data.data.forEach(clinic => {
-                        this.clinics.push(clinic);
+                    let colors = ['#00c0ef', '#00a65a', '#f39c12', '#dd4b39', '#A9D300']
+                    data.data.forEach((clinic,index)=> {
+
+                     
+                            console.log(index)
+                            let currColor = colors[index];
+
+                            if (!currColor) currColor = '#00c0ef';
+                             clinic.currColor = currColor
+                          
+                            this.clinics.push(clinic);
 
                     });
 
                     //this.currentPage = data.currentPage
                     this.currentPage = data.current_page;
                     this.lastPage = data.last_page;
-                    loader.dismiss();
+                    
+                    let dateFrom = moment(this.currentDate).startOf('month').format('YYYY-MM-DD');
+                    let dateTo = moment(this.currentDate).endOf('month').format('YYYY-MM-DD');
+
+                    console.log(this.clinics)
+                    this.loadSchedules(dateFrom, dateTo, loader);
 
                 })
                 .catch(error => {
@@ -163,87 +160,87 @@ export class ModalSchedulePage {
         if (this.networkService.noConnection()) {
             this.networkService.showNetworkAlert();
         } else {
-            let message = 'Cita Reservada Correctamente';
+            this.submitAttempt = true;
+            let message = 'Horario programado correctamente';
             let styleClass = 'success';
-            let colors = ['#2A630F', '#558D00', '#77B000', '#8CCC00', '#A9D300']
-            let currColor = colors[Math.floor((Math.random() * colors.length))];
-           // console.log(this.scheduleForm.value)
-            let schedule = this.scheduleForm.value;
-            console.log(schedule)
-            schedule.backgroundColor = currColor
-            schedule.borderColor = currColor
-            schedule.start = schedule.date + 'T' + schedule.start + ':00';
-            schedule.end = schedule.date + 'T' + schedule.end + ':00';
-            console.log(schedule)
+           
+          
+            if (this.scheduleForm.valid) {
+                let schedule = this.scheduleForm.value;
+            
+                schedule.backgroundColor = this.clinicColorSelected
+                schedule.borderColor = this.clinicColorSelected
+                schedule.start = schedule.date + 'T' + schedule.ini + ':00';
+                schedule.end = schedule.date + 'T' + schedule.fin + ':00';
+                schedule.title = this.clinicSelected
 
-            if (moment(schedule.start).isAfter(schedule.end)) {
-                let toast = this.toastCtrl.create({
-                    message: 'Hora invalida. La hora de inicio no puede ser mayor que la hora final!!!',
-                    cssClass: 'mytoast error',
-                    duration: 3000
-                });
-                toast.present(toast);
-
-                return false;
-
-            }
-
-            if (moment(schedule.start).isSame(schedule.end)) {
-                schedule.end = moment(schedule.start).add(this.step, 'minutes').format();
-                console.log('same end '+ schedule.end)
-            }
-
-            if (this.isReserved(schedule.start, schedule.end)) {
-
-                let toast = this.toastCtrl.create({
-                    message: 'No se puede agregar el evento por que hay colision de horarios. Por favor revisar!!!',
-                    cssClass: 'mytoast error',
-                    duration: 3000
-                });
-                toast.present(toast);
-
-                return false;
-            }
-/*
-            this.isWaiting = true;
-            this.scheduleService.save(schedule)
-                .then(data => {
-                    console.log(data)
-
-                    if (data.error) {
-                        message = data.error.message;
-                        styleClass = 'error';
-                    }
-
+                if (moment(schedule.start).isAfter(schedule.end)) {
                     let toast = this.toastCtrl.create({
-                        message: message,
-                        cssClass: 'mytoast ' + styleClass,
-                        duration: 3000
-                    });
-                    toast.present(toast);
-
-                    if (data.appointment)
-                        this.appointment = data.appointment;
-
-                    this.isWaiting = null;
-
-                })
-                .catch(error => {
-
-                    let message = 'Ha ocurrido un error guardando la cita';
-
-                    let toast = this.toastCtrl.create({
-                        message: message,
+                        message: 'Hora invalida. La hora de inicio no puede ser mayor que la hora final!!!',
                         cssClass: 'mytoast error',
                         duration: 3000
                     });
-
                     toast.present(toast);
-                  
-                    this.isWaiting = null;
+
+                    return false;
 
                 }
-                );*/
+
+                if (moment(schedule.start).isSame(schedule.end)) {
+                    schedule.end = moment(schedule.date + 'T' + schedule.ini + ':00').add(this.step, 'm').format('YYYY-MM-DDTHH:mm:ss');
+                    console.log('same end '+ schedule.end)
+                }
+
+                if (this.isReserved(schedule.start, schedule.end)) {
+
+                    let toast = this.toastCtrl.create({
+                        message: 'No se puede agregar el evento por que hay colision de horarios. Por favor revisar!!!',
+                        cssClass: 'mytoast error',
+                        duration: 3000
+                    });
+                    toast.present(toast);
+
+                    return false;
+                }
+    
+                this.isWaiting = true;
+                this.scheduleService.save(schedule)
+                    .then(data => {
+                        console.log(data)
+
+                        if (data.error) {
+                            message = data.error.message;
+                            styleClass = 'error';
+                        }
+
+                        let toast = this.toastCtrl.create({
+                            message: message,
+                            cssClass: 'mytoast ' + styleClass,
+                            duration: 3000
+                        });
+                        toast.present(toast);
+                        this.isSaved = true;
+                        this.isWaiting = null;
+                        this.dismiss()
+
+                    })
+                    .catch(error => {
+
+                        let message = 'Ha ocurrido un error guardando el horario';
+
+                        let toast = this.toastCtrl.create({
+                            message: message,
+                            cssClass: 'mytoast error',
+                            duration: 3000
+                        });
+                        console.log(error);
+                        toast.present(toast);
+                    
+                        this.isWaiting = null;
+
+                    }
+                    );
+            }
         }
     }
     isReserved(startSchedule, endSchedule) {
@@ -261,71 +258,16 @@ export class ModalSchedulePage {
         return res
 
     }
-    createIntervalsFromHours(date, from, until, slot) {
-
-        until = Date.parse(date + " " + until);
-        from = Date.parse(date + " " + from);
-
-        let intervalLength = (slot) ? slot : 30;
-        let intervalsPerHour = 60 / intervalLength;
-        let milisecsPerHour = 60 * 60 * 1000;
-
-        let max = (Math.abs(until - from) / milisecsPerHour) * intervalsPerHour;
-
-        let time = new Date(from);
-        let intervals = [];
-        for (let i = 0; i <= max; i++) {
-            //doubleZeros just adds a zero in front of the value if it's smaller than 10.
-            let hour = this.doubleZeros(time.getHours());
-            let minute = this.doubleZeros(time.getMinutes());
-            intervals.push(hour + ":" + minute);
-            time.setMinutes(time.getMinutes() + intervalLength);
-        }
-        return intervals;
+    onChange(evt){
+      
+       if(this.clinics.find(x => x.id == evt))
+       {
+           this.clinicSelected = this.clinics.find(x => x.id == evt).name
+           this.clinicColorSelected = this.clinics.find(x => x.id == evt).currColor
+       }
     }
-
-
-    doubleZeros(item) {
-
-        return (item < 10) ? '0' + item : item;
-    }
+   
     
-    deleteSchedule(schedule) {
-        if (this.networkService.noConnection()) {
-            this.networkService.showNetworkAlert();
-        } else {
-            let loader = this.loadingCtrl.create({
-                content: "Espere por favor...",
-
-            });
-
-            loader.present();
-            this.scheduleService.delete(schedule.delete_id)
-                .then(data => {
-                    console.log(data)
-                   
-                    let dataSchedule = { date: schedule.start };
-
-                    loader.dismiss();
-                    this.dismiss(dataSchedule);
-
-
-                })
-                .catch(error => {
-                    let message = 'Ha ocurrido un error eliminado el horario';
-
-                  
-                    let toast = this.toastCtrl.create({
-                        message: message,
-                        cssClass: 'mytoast error',
-                        duration: 3000
-                    });
-                    console.log(error);
-                    toast.present(toast);
-                    loader.dismiss();
-                });
-        }
-    }
     goHome(){
         
         let data = { toHome: true };
@@ -335,25 +277,20 @@ export class ModalSchedulePage {
     parseDate(date) {
         return moment(date).format('YYYY-MM-DD h:mm A');
     }
-    dismiss(dataDelete:any) {
+    dismiss() {
        
-        /*let data = { date: this.appointment.date };
+        let data = { date: this.currentDate };
        
-         if(this.appointment.fromScheduledAppointments){
+        if (this.isSaved){
 
-            if(dataDelete)
-                this.viewCtrl.dismiss(dataDelete);
-            else 
-                this.viewCtrl.dismiss({date:''});  
+            this.viewCtrl.dismiss(data);   
 
          }else{
-            if(dataDelete)
-                this.viewCtrl.dismiss(dataDelete);
-            else 
-                this.viewCtrl.dismiss(data);   
+
+            this.viewCtrl.dismiss();  
           
          
-        }*/
+        }
     }
 
 }

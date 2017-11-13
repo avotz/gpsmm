@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ModalController, LoadingController, ToastController } from 'ionic-angular';
+import { NavController, NavParams, ModalController, LoadingController, ToastController, ActionSheetController } from 'ionic-angular';
 import { MedicServiceProvider } from '../../providers/medic-service/medic-service';
 import { NetworkServiceProvider } from '../../providers/network-service/network-service';
+import { ScheduleServiceProvider } from '../../providers/schedule-service/schedule-service';
 import { ModalSchedulePage } from './modal-schedule';
 import moment from 'moment'
 @Component({
@@ -19,7 +20,7 @@ export class AgendaPage {
   authUser: any;
   currentDate: any;
   self: any;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public medicService: MedicServiceProvider, public modalCtrl: ModalController, public loadingCtrl: LoadingController, public toastCtrl: ToastController, public networkService: NetworkServiceProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public medicService: MedicServiceProvider, public scheduleService: ScheduleServiceProvider, public modalCtrl: ModalController, public loadingCtrl: LoadingController, public toastCtrl: ToastController, public networkService: NetworkServiceProvider, public actionSheetCtrl: ActionSheetController) {
 
     this.authUser = JSON.parse(window.localStorage.getItem('auth_user'));
     this.params = this.navParams.data;
@@ -39,7 +40,7 @@ export class AgendaPage {
     
   
       
-    return moment(dateCal).isBefore(current)
+   // return moment(dateCal).isBefore(current)
 
 
    
@@ -63,6 +64,7 @@ export class AgendaPage {
            
           
               let event = {
+                id: schedule.id,
                 title: title,
                 startTime: new Date(moment(schedule.start).format("YYYY-MM-DD HH:mm")),
                 endTime: new Date(moment(schedule.end).format("YYYY-MM-DD HH:mm")),
@@ -111,14 +113,70 @@ export class AgendaPage {
     }
 
   }
+  deleteSchedule(schedule) {
+    if (this.networkService.noConnection()) {
+      this.networkService.showNetworkAlert();
+    } else {
+      let loader = this.loadingCtrl.create({
+        content: "Espere por favor...",
+
+      });
+
+      loader.present();
+      this.scheduleService.delete(schedule.id)
+        .then(data => {
+          console.log(data)
+
+          // let dataSchedule = { date: schedule.start };
+
+          loader.dismiss();
+          this.onCurrentDateChanged(this.currentDate);
+
+
+        })
+        .catch(error => {
+          let message = 'Ha ocurrido un error eliminado el horario';
+
+
+          let toast = this.toastCtrl.create({
+            message: message,
+            cssClass: 'mytoast error',
+            duration: 3000
+          });
+          console.log(error);
+          toast.present(toast);
+          loader.dismiss();
+        });
+    }
+  }
 
  openModalSchedule(){
+
+   var current = moment().format("YYYY-MM-DD");
+   var dateCal = this.currentDate;
+
+   if (moment(dateCal).isBefore(current))
+    {
+      let message = 'No se puede programar en horas pasadas. Verifica';
+
+
+      let toast = this.toastCtrl.create({
+        message: message,
+        cssClass: 'mytoast error',
+        duration: 3000
+      });
+    
+      toast.present(toast);
+      
+      return
+    }
+
    
    let modal = this.modalCtrl.create(ModalSchedulePage, { selectedDate: this.currentDate});
    modal.onDidDismiss(data => {
 
-     /*if (data)
-       this.getAppointmentsFromUser();*/
+     if (data)
+       this.onCurrentDateChanged(data.date);
 
 
 
@@ -130,6 +188,7 @@ export class AgendaPage {
 
   onEventSelected(evt) {
     console.log(evt)
+    this.presentOptions(evt)
   }
 
   onCurrentDateChanged(date) {
@@ -152,6 +211,26 @@ export class AgendaPage {
   }
   goHome(){
     this.navCtrl.popToRoot()
+  }
+  presentOptions(schedule) {
+    let actionSheet = this.actionSheetCtrl.create({
+      title: 'Opciones',
+      buttons: [
+       {
+          text: 'Eliminar',
+          handler: () => {
+            this.deleteSchedule(schedule)
+          }
+        }, {
+          text: 'Cerrar',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cerrar clicked');
+          }
+        }
+      ]
+    });
+    actionSheet.present();
   }
 
 
