@@ -35,8 +35,8 @@ export class AgendaPage {
   markDisabled(date) {
    
 
-    var current = moment().format("YYYY-MM-DD");
-    var dateCal = moment(date).format("YYYY-MM-DD");
+    //var current = moment().format("YYYY-MM-DD");
+    //var dateCal = moment(date).format("YYYY-MM-DD");
     
   
       
