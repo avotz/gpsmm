@@ -30,7 +30,9 @@ import { AssignmentClinicPage } from '../pages/clinics/assignment-clinic';
 import { AccountPage } from '../pages/account/account';
 import { AgendaPage } from '../pages/agenda/agenda';
 import { ModalSchedulePage } from '../pages/agenda/modal-schedule';
-
+import { SchedulePage } from '../pages/agenda/schedule';
+import { TabJornadaPage } from '../pages/agenda/tab-jornada';
+import { TabDiaPage } from '../pages/agenda/tab-dia';
 
 import { NetworkServiceProvider } from '../providers/network-service/network-service';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
@@ -56,7 +58,10 @@ import { ScheduleServiceProvider } from '../providers/schedule-service/schedule-
     AssignmentClinicPage,
     AccountPage,
     AgendaPage,
-    ModalSchedulePage
+    ModalSchedulePage,
+    SchedulePage,
+    TabJornadaPage,
+    TabDiaPage
   ],
   imports: [
     BrowserModule,
@@ -80,7 +85,10 @@ import { ScheduleServiceProvider } from '../providers/schedule-service/schedule-
     AssignmentClinicPage,
     AccountPage,
     AgendaPage,
-    ModalSchedulePage
+    ModalSchedulePage,
+    SchedulePage,
+    TabJornadaPage,
+    TabDiaPage
   ],
   providers: [
     StatusBar,

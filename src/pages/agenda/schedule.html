@@ -1,0 +1,15 @@
+<ion-header>
+        <ion-navbar no-border-bottom>
+            <ion-title>
+                Programar Horario
+            </ion-title>
+        </ion-navbar>
+        
+    </ion-header>
+    
+    <ion-tabs class="tabs-basic" >
+            <ion-tab tabTitle="Jornada" [root]="tabJornada" [rootParams]="workdayTabParams" color="'danger'"></ion-tab>
+            <ion-tab tabTitle="Día" [root]="tabDia" [rootParams]="dayTabParams"></ion-tab>
+            
+        </ion-tabs>
+

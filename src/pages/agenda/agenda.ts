@@ -3,7 +3,9 @@ import { NavController, NavParams, ModalController, LoadingController, ToastCont
 import { MedicServiceProvider } from '../../providers/medic-service/medic-service';
 import { NetworkServiceProvider } from '../../providers/network-service/network-service';
 import { ScheduleServiceProvider } from '../../providers/schedule-service/schedule-service';
+import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import { ModalSchedulePage } from './modal-schedule';
+import { SchedulePage } from './schedule';
 import moment from 'moment'
 @Component({
   selector: 'page-agenda',
@@ -20,7 +22,7 @@ export class AgendaPage {
   authUser: any;
   currentDate: any;
   self: any;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public medicService: MedicServiceProvider, public scheduleService: ScheduleServiceProvider, public modalCtrl: ModalController, public loadingCtrl: LoadingController, public toastCtrl: ToastController, public networkService: NetworkServiceProvider, public actionSheetCtrl: ActionSheetController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public medicService: MedicServiceProvider, public scheduleService: ScheduleServiceProvider, public modalCtrl: ModalController, public loadingCtrl: LoadingController, public toastCtrl: ToastController, public networkService: NetworkServiceProvider, public actionSheetCtrl: ActionSheetController, public authService: AuthServiceProvider,) {
 
     this.authUser = JSON.parse(window.localStorage.getItem('auth_user'));
     this.params = this.navParams.data;
@@ -28,10 +30,43 @@ export class AgendaPage {
       currentDate: new Date(),
       mode: 'month'
     }
+
     this.self = this;
 
+    let loader = this.loadingCtrl.create({
+      content: "Espere por favor...",
+
+    });
+
+    loader.present();
+
+    this.authService.getUser()
+      .then(resp => {
+
+        this.authUser = resp;
+      
+        window.localStorage.setItem('auth_user', JSON.stringify(resp));
+
+        loader.dismiss();
+       
+      })
+      .catch(error => {
+
+        let message = 'Ha ocurrido un error obteniendo el usuario';
+
+        let toast = this.toastCtrl.create({
+          message: message,
+          cssClass: 'mytoast error',
+          duration: 3000
+        });
+
+        toast.present(toast);
+        loader.dismiss();
+
+      });
   }
 
+  
   markDisabled(date) {
    
 
@@ -149,7 +184,9 @@ export class AgendaPage {
         });
     }
   }
-
+ openSchedule(){
+   this.navCtrl.push(SchedulePage)
+ }
  openModalSchedule(){
 
    var current = moment().format("YYYY-MM-DD");

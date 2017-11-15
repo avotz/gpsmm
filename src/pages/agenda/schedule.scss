@@ -1,0 +1,23 @@
+page-schedule {
+   
+    p.error{
+        color: #ea6153;
+        border: 0;
+        margin-bottom: 0;
+      }
+    .loading{
+        /*margin-top: 10px;
+        margin-left: 1rem;*/
+        text-align: center
+    }
+    
+    .tabs-md .tab-button[aria-selected=false], .tabs-ios .tab-button[aria-selected=false]{
+        color: #fff; /*your  text color */
+        background: map-get($colors, primary); /* your background color*/
+    }
+    .tabs-md .tab-button[aria-selected=true],  .tabs-ios .tab-button[aria-selected=true]{
+        color: #fff; /*your  text color */
+        background: map-get($colors, danger); /* your background color*/
+    }
+
+}
