@@ -10,16 +10,7 @@
 
 <ion-content>
     <div >
-        <div padding class="header-title">
         
-        
-            <p >Selecciona los días y la clinica en donde para recibir consulta</p>
-            <h3>
-                <b>{{ currentDate }}</b>
-            </h3>
-        
-        </div>
-       
         <ion-grid>
         
             <ion-row>
@@ -51,8 +42,16 @@
     
     </ng-template>
     <template #template let-showEventDetail="showEventDetail" let-selectedDate="selectedDate" let-noEventsLabel="noEventsLabel">
+        <div padding class="header-title">
+        <h6>
+            <b>{{ currentDate }}</b>
+        </h6>
         
-        <form [formGroup]="scheduleForm">
+            <p>Selecciona los días en el calendario y la clinica en donde vas a recibir consultas</p>
+            
+        
+        </div>
+        <form [formGroup]="scheduleForm" class="scheduleForm">
             <ion-row>
                 <ion-col>
                    
