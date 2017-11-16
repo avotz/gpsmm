@@ -59,6 +59,6 @@
      
 </ng-template>
   <calendar [eventSource]="eventSource" [calendarMode]="calendar.mode" [currentDate]="calendar.currentDate" (onCurrentDateChanged)="onCurrentDateChanged($event)"
-    (onEventSelected)="onEventSelected($event)" step="30" [markDisabled]="markDisabled" noEventsLabel="No hay horario programado" [monthviewDisplayEventTemplate]="template2">
+    (onEventSelected)="onEventSelected($event)" step="30" [markDisabled]="markDisabled" noEventsLabel="No hay horario programado" [monthviewDisplayEventTemplate]="template2" [autoSelect]="false">
   </calendar>
 </ion-content>

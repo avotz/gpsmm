@@ -30,9 +30,10 @@ export class ModalSchedulePage {
     step: any;
     submitAttempt: boolean = false;
     isSaved: boolean = false;
+    schedule:any;
     constructor(public platform: Platform, public navParams: NavParams, public viewCtrl: ViewController, public toastCtrl: ToastController, public clinicService: ClinicServiceProvider, public scheduleService: ScheduleServiceProvider, public medicService: MedicServiceProvider, public loadingCtrl: LoadingController, public networkService: NetworkServiceProvider, public navCtrl: NavController, public formBuilder: FormBuilder) {
       
-        this.currentDate = this.navParams.data.selectedDate;
+        this.schedule = this.navParams.data.schedule;
        
         this.authUser = JSON.parse(window.localStorage.getItem('auth_user'));
         console.log(moment.duration(this.authUser.settings.slotDuration).asMinutes());
@@ -48,19 +49,19 @@ export class ModalSchedulePage {
 
 
         this.scheduleForm = formBuilder.group({
-            title: [''],
-            office_id: ['', Validators.required],
-            date: ['', Validators.required],
-            ini: ['', Validators.required],
-            fin: ['', Validators.required],
-            backgroundColor: ['#00a65a'],  //Success ('#00a65a')
-            borderColor: ['#00a65a'],
+            title: [this.schedule.title],
+            office_id: [this.schedule.office_id, Validators.required],
+            date: [moment(this.schedule.startFormatted).format('YYYY-MM-DD'), Validators.required],
+            ini: [moment(this.schedule.startFormatted).format('HH:mm'), Validators.required],
+            fin: [moment(this.schedule.endFormatted).format('HH:mm'), Validators.required],
+            //backgroundColor: [this.schedule.backgroundColor],  //Success ('#00a65a')
+            //borderColor: ['#00a65a'],
         
 
 
         });
 
-
+        console.log(this.schedule)
     }
     
     range(start, stop, step) {
@@ -156,12 +157,12 @@ export class ModalSchedulePage {
                 });
         }
     }
-    saveSchedule() {
+    updateSchedule() {
         if (this.networkService.noConnection()) {
             this.networkService.showNetworkAlert();
         } else {
             this.submitAttempt = true;
-            let message = 'Horario programado correctamente';
+            let message = 'Horario actualizado correctamente';
             let styleClass = 'success';
            
           
@@ -173,7 +174,7 @@ export class ModalSchedulePage {
                 schedule.start = schedule.date + 'T' + schedule.ini + ':00';
                 schedule.end = schedule.date + 'T' + schedule.fin + ':00';
                 schedule.title = this.clinicSelected
-
+                schedule.id = this.schedule.id
                 if (moment(schedule.start).isAfter(schedule.end)) {
                     let toast = this.toastCtrl.create({
                         message: 'Hora invalida. La hora de inicio no puede ser mayor que la hora final!!!',
@@ -191,7 +192,7 @@ export class ModalSchedulePage {
                     console.log('same end '+ schedule.end)
                 }
 
-                if (this.isReserved(schedule.start, schedule.end)) {
+                if (this.isReserved(schedule.start, schedule.end, schedule.id)) {
 
                     let toast = this.toastCtrl.create({
                         message: 'No se puede agregar el evento por que hay colision de horarios. Por favor revisar!!!',
@@ -204,7 +205,7 @@ export class ModalSchedulePage {
                 }
     
                 this.isWaiting = true;
-                this.scheduleService.save(schedule)
+                this.scheduleService.update(schedule)
                     .then(data => {
                         console.log(data)
 
@@ -226,7 +227,7 @@ export class ModalSchedulePage {
                     })
                     .catch(error => {
 
-                        let message = 'Ha ocurrido un error guardando el horario';
+                        let message = 'Ha ocurrido un error actualizando el horario';
 
                         let toast = this.toastCtrl.create({
                             message: message,
@@ -243,14 +244,16 @@ export class ModalSchedulePage {
             }
         }
     }
-    isReserved(startSchedule, endSchedule) {
+    isReserved(startSchedule, endSchedule,schedule_id) {
         let res = false;
         for (var j = 0; j < this.schedules.length; j++) {
            
-            if (this.schedules[j].end > startSchedule && this.schedules[j].start < endSchedule) {
-                
-                    res = true;
-                   
+            if (this.schedules[j].id != schedule_id){
+                if (this.schedules[j].end > startSchedule && this.schedules[j].start < endSchedule) {
+                    
+                        res = true;
+                    
+                }
             }
 
         }
@@ -278,8 +281,8 @@ export class ModalSchedulePage {
         return moment(date).format('YYYY-MM-DD h:mm A');
     }
     dismiss() {
-       
-        let data = { date: this.currentDate };
+      
+        let data = { date: moment().format('YYYY-MM-DD') };
        
         if (this.isSaved){
 

@@ -43,7 +43,8 @@ $colors: (
   google: #d34836,
   celeste: #00c0ef,
   verde: #00a65a,
-  amarillo: #f39c12
+  amarillo: #f39c12,
+  gris:#6e6e6e
 );
 
 
@@ -121,6 +122,10 @@ $colors: (
 .mytoast.success .toast-wrapper{
  background-color: map-get($colors, secondary);
 }
+.mytoast.warning .toast-wrapper{
+ background-color: map-get($colors, amarillo);
+}
+
 .text-center{
   text-align: center;
 }

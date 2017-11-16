@@ -29,6 +29,24 @@ export class ScheduleServiceProvider {
            
              
     }
+    update(schedule) {
+
+        let headers = new Headers({
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        }),
+
+            options = new RequestOptions({ headers: headers });
+
+
+
+        return this.http.put(SERVER_URL + '/api/medic/schedules/'+ schedule.id, schedule, options)
+            .map(res => res.json())
+            .toPromise();
+
+
+
+    }
     saveAll(schedules) {
 
         let headers = new Headers({

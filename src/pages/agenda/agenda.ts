@@ -21,6 +21,8 @@ export class AgendaPage {
   loader: any;
   authUser: any;
   currentDate: any;
+  currentMonth: any = moment().month()
+  currentYear: any = moment().year()
   self: any;
   constructor(public navCtrl: NavController, public navParams: NavParams, public medicService: MedicServiceProvider, public scheduleService: ScheduleServiceProvider, public modalCtrl: ModalController, public loadingCtrl: LoadingController, public toastCtrl: ToastController, public networkService: NetworkServiceProvider, public actionSheetCtrl: ActionSheetController, public authService: AuthServiceProvider,) {
 
@@ -28,42 +30,16 @@ export class AgendaPage {
     this.params = this.navParams.data;
     this.calendar = {
       currentDate: new Date(),
-      mode: 'month'
+      mode: 'month',
+      
     }
 
     this.self = this;
 
-    let loader = this.loadingCtrl.create({
-      content: "Espere por favor...",
-
-    });
-
-    loader.present();
-
-    this.authService.getUser()
-      .then(resp => {
-
-        this.authUser = resp;
-      
-        window.localStorage.setItem('auth_user', JSON.stringify(resp));
-
-        loader.dismiss();
-       
-      })
-      .catch(error => {
-
-        let message = 'Ha ocurrido un error obteniendo el usuario';
-
-        let toast = this.toastCtrl.create({
-          message: message,
-          cssClass: 'mytoast error',
-          duration: 3000
-        });
-
-        toast.present(toast);
-        loader.dismiss();
-
-      });
+    let dateFrom = moment(this.currentDate).startOf('month').format('YYYY-MM-DD');
+    let dateTo = moment(this.currentDate).endOf('month').format('YYYY-MM-DD');
+    this.loadEventsOfMonth(dateFrom, dateTo)
+   
   }
 
   
@@ -104,7 +80,7 @@ export class AgendaPage {
                 startTime: new Date(moment(schedule.start).format("YYYY-MM-DD HH:mm")),
                 endTime: new Date(moment(schedule.end).format("YYYY-MM-DD HH:mm")),
                 startFormatted: moment(schedule.start).format("YYYY-MM-DD HH:mm"),
-                endFormatted: moment(schedule.start).format("YYYY-MM-DD HH:mm"),
+                endFormatted: moment(schedule.end).format("YYYY-MM-DD HH:mm"),
                 //start: startEvent,
                 //end: endEvent,
                 allDay: false,
@@ -165,7 +141,11 @@ export class AgendaPage {
           // let dataSchedule = { date: schedule.start };
 
           loader.dismiss();
-          this.onCurrentDateChanged(this.currentDate);
+         
+          let dateFrom = moment(this.currentDate).startOf('month').format('YYYY-MM-DD');
+          let dateTo = moment(this.currentDate).endOf('month').format('YYYY-MM-DD');
+         
+          this.loadEventsOfMonth(dateFrom, dateTo);
 
 
         })
@@ -187,9 +167,9 @@ export class AgendaPage {
  openSchedule(){
    this.navCtrl.push(SchedulePage)
  }
- openModalSchedule(){
+ openModalSchedule(schedule){
 
-   var current = moment().format("YYYY-MM-DD");
+  /* var current = moment().format("YYYY-MM-DD");
    var dateCal = this.currentDate;
 
    if (moment(dateCal).isBefore(current))
@@ -206,14 +186,23 @@ export class AgendaPage {
       toast.present(toast);
       
       return
-    }
+    }*/
 
    
-   let modal = this.modalCtrl.create(ModalSchedulePage, { selectedDate: this.currentDate});
+   let modal = this.modalCtrl.create(ModalSchedulePage, { schedule:schedule});
    modal.onDidDismiss(data => {
+    
+     if (data){
 
-     if (data)
-       this.onCurrentDateChanged(data.date);
+       let dateFrom = moment(data.date).startOf('month').format('YYYY-MM-DD');
+       let dateTo = moment(data.date).endOf('month').format('YYYY-MM-DD');
+
+
+         this.loadEventsOfMonth(dateFrom, dateTo)
+
+
+       
+     }
 
 
 
@@ -233,17 +222,51 @@ export class AgendaPage {
     let dateFrom = moment(date).startOf('month').format('YYYY-MM-DD');
     let dateTo = moment(date).endOf('month').format('YYYY-MM-DD');
     this.currentDate = moment(date).format('YYYY-MM-DD');
+   
+    if (this.currentMonth != moment(date).month() || this.currentYear != moment(date).year()) {
 
-    console.log(dateFrom + ' - ' + dateTo)
-    //console.log(moment(date).endOf('month').format('YYYY-MM-DD'));
-    //this.loadAppointments(dateFrom, dateTo);
+      this.currentMonth = moment(date).month()
+      this.currentYear = moment(date).year()
+      this.loadEventsOfMonth(dateFrom, dateTo)
+    
+
+    }
+    
+    
+
+  }
+  loadEventsOfMonth(dateFrom, dateTo) {
+
     let loader = this.loadingCtrl.create({
       content: "Espere por favor...",
 
     });
 
     loader.present();
-    this.loadSchedules(dateFrom, dateTo, loader);
+    this.authService.getUser()
+      .then(resp => {
+
+        this.authUser = resp;
+
+        window.localStorage.setItem('auth_user', JSON.stringify(resp));
+
+        this.loadSchedules(dateFrom, dateTo, loader);
+
+      })
+      .catch(error => {
+
+        let message = 'Ha ocurrido un error obteniendo el usuario';
+
+        let toast = this.toastCtrl.create({
+          message: message,
+          cssClass: 'mytoast error',
+          duration: 3000
+        });
+
+        toast.present(toast);
+        loader.dismiss();
+
+      });
 
   }
   goHome(){
@@ -254,11 +277,18 @@ export class AgendaPage {
       title: 'Opciones',
       buttons: [
        {
+          text: 'Editar',
+          handler: () => {
+            this.openModalSchedule(schedule)
+          }
+        },
+        {
           text: 'Eliminar',
           handler: () => {
             this.deleteSchedule(schedule)
           }
-        }, {
+        },
+        {
           text: 'Cerrar',
           role: 'cancel',
           handler: () => {
@@ -268,6 +298,10 @@ export class AgendaPage {
       ]
     });
     actionSheet.present();
+  }
+
+  ionViewDidEnter() {
+   
   }
 
 

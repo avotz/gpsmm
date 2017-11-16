@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { TabJornadaPage } from './tab-jornada';
 import { TabDiaPage } from './tab-dia';
-
+import { AgendaPage } from '../agenda/agenda';
+import { HomePage } from '../home/home';
 
 @Component({
   selector: 'page-schedule',
@@ -28,7 +29,10 @@ export class SchedulePage {
   }
   
   
-  
+  back() {
+    this.navCtrl.setRoot(HomePage);
+    this.navCtrl.push(AgendaPage)  // remember to put this to add the back button behavior
+  }
   ionViewDidLoad() {
     console.log('ionViewDidLoad schedulePage');
   }

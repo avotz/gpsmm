@@ -1,5 +1,10 @@
 <ion-header>
-        <ion-navbar no-border-bottom>
+        <ion-navbar no-border-bottom hideBackButton>
+            <ion-buttons left>
+                <button ion-button (click)="back()">
+                    <ion-icon class="customIcon" name="arrow-back"></ion-icon>
+                </button>
+            </ion-buttons>
             <ion-title>
                 Programar Horario
             </ion-title>

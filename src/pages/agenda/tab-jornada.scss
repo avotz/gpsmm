@@ -21,12 +21,23 @@ tab-jornada {
         margin-left: 1rem;*/
         text-align: center
     }
+     .monthview-primary-with-event[_ngcontent-c1]{
+        position: relative;
+        padding: 0px !important;
+    }
+    .monthview-secondary-with-event[_ngcontent-c1]{
+        position: relative;
+        padding: 0px !important;
+    }
     .monthview-selected[_ngcontent-c1]{
         background-color:transparent;
         color:#000;
     }
     .monthview-primary-with-event[_ngcontent-c1]{
-       background-color: #3a87ad !important
+       background-color: #6e6e6e !important
+    }
+    .header-title{
+        text-align: center;
     }
 
 }

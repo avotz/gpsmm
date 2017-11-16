@@ -191,6 +191,23 @@ export class TabDiaPage {
                     schedule.end = moment(schedule.date + 'T' + schedule.ini + ':00').add(this.step, 'm').format('YYYY-MM-DDTHH:mm:ss');
                     console.log('same end ' + schedule.end)
                 }
+                var current = moment().format("YYYY-MM-DD");
+
+                if (moment(schedule.date).isBefore(current)) {
+                    let message = 'No se puede programar en fechas pasadas. Verifica';
+
+
+                    let toast = this.toastCtrl.create({
+                        message: message,
+                        cssClass: 'mytoast error',
+                        duration: 3000
+                    });
+
+                    toast.present(toast);
+
+                    return
+                }
+               
 
                 if (this.isReserved(schedule.start, schedule.end)) {
 

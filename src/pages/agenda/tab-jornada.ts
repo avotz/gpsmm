@@ -22,6 +22,9 @@ export class TabJornadaPage {
   schedulesToSave: any[] = [];
   clinics: any[] = [];
   currentDate: any = new Date(moment().format("YYYY-MM-DD HH:mm"))
+  currentDateCalendar: any = new Date(moment().format("YYYY-MM-DD HH:mm"))
+  currentMonth: any = moment().month()
+  currentYear: any = moment().year()
   authUser: any;
   params:any;
   submitAttempt: boolean = false;
@@ -33,6 +36,7 @@ export class TabJornadaPage {
   clinicColorSelected: string = '#00c0ef';
   isWaiting: boolean = null;
   schedulesLoaded: boolean = false;
+  autoSelect: boolean = false;
   constructor(public navCtrl: NavController, public navParams: NavParams, public clinicService: ClinicServiceProvider, public scheduleService: ScheduleServiceProvider, public medicService: MedicServiceProvider, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public modalCtrl: ModalController, public networkService: NetworkServiceProvider, public platform: Platform, public formBuilder: FormBuilder) {
 
     this.authUser = JSON.parse(window.localStorage.getItem('auth_user'));
@@ -59,6 +63,43 @@ export class TabJornadaPage {
         .then(data => {
           this.schedules = data;
           this.schedulesLoaded = true
+         // this.calendar.eventSource = data;
+          let events = [];
+          data.forEach(schedule => {
+
+
+
+            let title = schedule.office.name;
+
+
+
+            let event = {
+              id: schedule.id,
+              title: title,
+              startTime: new Date(moment(schedule.start).format("YYYY-MM-DD HH:mm")),
+              endTime: new Date(moment(schedule.end).format("YYYY-MM-DD HH:mm")),
+              startFormatted: moment(schedule.start).format("YYYY-MM-DD HH:mm"),
+              endFormatted: moment(schedule.start).format("YYYY-MM-DD HH:mm"),
+              //start: startEvent,
+              //end: endEvent,
+              allDay: false,
+              office_id: schedule.office_id,
+              medic_id: schedule.user_id,
+              office: schedule.office,
+              medic: schedule.user,
+              background_color: '#6e6e6e' //gris para lo ya ocupados
+
+            }
+
+            events.push(event);
+
+
+
+
+
+
+          });
+          this.eventSource = events;
           loader.dismiss();
 
         })
@@ -111,6 +152,7 @@ export class TabJornadaPage {
           //this.currentPage = data.currentPage
           this.currentPage = data.current_page;
           this.lastPage = data.last_page;
+         
           let dateFrom = moment(this.currentDate).startOf('month').format('YYYY-MM-DD');
           let dateTo = moment(this.currentDate).endOf('month').format('YYYY-MM-DD');
 
@@ -175,8 +217,20 @@ export class TabJornadaPage {
 
         });
 
+        if (!this.schedulesToSave.length) {
+
+          let toast = this.toastCtrl.create({
+            message: 'Selecciona al menos un dia en el calendario!!!',
+            cssClass: 'mytoast warning',
+            duration: 3000
+          });
+          toast.present(toast);
+
+          return
+        }
        
         this.isWaiting = true;
+        
         this.scheduleService.saveAll(this.schedulesToSave)
           .then(data => {
             console.log(data)
@@ -196,9 +250,11 @@ export class TabJornadaPage {
             this.isWaiting = null;
             this.submitAttempt = false;
             this.schedulesToSave = [];
+            this.markDays = [];
             this.scheduleForm.reset()
             this.eventSource = [];
             this.calendar.loadEvents();
+           
             let dateFrom = moment(this.currentDate).startOf('month').format('YYYY-MM-DD');
             let dateTo = moment(this.currentDate).endOf('month').format('YYYY-MM-DD');
             let loader = this.loadingCtrl.create({
@@ -265,61 +321,221 @@ export class TabJornadaPage {
 
   onCurrentDateChanged(date) {
 
-  
-    let event = {
-      title: 'Horario',
-      startTime: new Date(moment(date).format("YYYY-MM-DD HH:mm")),
-      endTime: new Date(moment(date).format("YYYY-MM-DD HH:mm")),
-      date: moment(date).format("YYYY-MM-DD"),
-      ini: this.authUser.settings.minTime,
-      fin: this.authUser.settings.maxTime,
-      start: moment(date).format("YYYY-MM-DD") + 'T' + this.authUser.settings.minTime,
-      end: moment(date).format("YYYY-MM-DD") + 'T' + this.authUser.settings.maxTime,
-      allDay: false,
+    let dateFrom = moment(date).startOf('month').format('YYYY-MM-DD');
+    let dateTo = moment(date).endOf('month').format('YYYY-MM-DD');
+    this.currentDate = moment(date).format('YYYY-MM-DD');
 
-    }
-    console.log(event)
-  
-    let index = this.markDays.findIndex(x => x.date === event.date);
-    console.log('index'+ index)
-
-    if(index !== -1){
-
-      this.eventSource.splice(index, 1);
-      this.markDays.splice(index, 1);
-      this.calendar.loadEvents();
-      console.log('se encontro')
-
-    }else{
-     
-      if (this.isReserved(event.start, event.end)) {
-
-        let toast = this.toastCtrl.create({
-          message: 'No se puede seleccionar este día por que hay colision de horarios. Por favor revisar!!!',
-          cssClass: 'mytoast error',
-          duration: 3000
-        });
-        toast.present(toast);
+    if (this.currentMonth == moment(date).month() && this.currentYear == moment(date).year())
+    {
+      let event = {
+        title: 'Horario',
+        startTime: new Date(moment(date).format("YYYY-MM-DD HH:mm")),
+        endTime: new Date(moment(date).format("YYYY-MM-DD HH:mm")),
+        date: moment(date).format("YYYY-MM-DD"),
+        ini: this.authUser.settings.minTime,
+        fin: this.authUser.settings.maxTime,
+        start: moment(date).format("YYYY-MM-DD") + 'T' + this.authUser.settings.minTime,
+        end: moment(date).format("YYYY-MM-DD") + 'T' + this.authUser.settings.maxTime,
+        allDay: false,
+        background_color: '#3c8dbc' //azul para los seleccionados
+      }
 
 
-      }else{
+      let index = this.eventSource.findIndex(x => x.date === event.date);
 
-        if (this.schedulesLoaded){
+      let indexMarkDays = this.markDays.findIndex(x => x.date === event.date);
+ 
 
-          this.markDays.push(event);
+      if (index !== -1) {
 
-          this.eventSource.push(event);
-          this.calendar.loadEvents();
+        this.eventSource.splice(index, 1);
+        this.markDays.splice(indexMarkDays, 1);
+        this.calendar.loadEvents();
+        console.log('se encontro')
+
+      } else {
+
+        if (this.isReserved(event.start, event.end)) {
+
+          let toast = this.toastCtrl.create({
+            message: 'No se puede seleccionar este día por que hay colision de horarios. Por favor revisar!!!',
+            cssClass: 'mytoast error',
+            duration: 3000
+          });
+          toast.present(toast);
+
+
+        } else {
+
+          if (this.schedulesLoaded) {
+
+            this.markDays.push(event);
+
+            this.eventSource.push(event);
+            this.calendar.loadEvents();
+
+          }
 
         }
 
       }
-    
+      console.log(this.markDays)
+
+    }else{
       
+      this.currentMonth = moment(date).month()
+      this.currentYear = moment(date).year()
+
+      this.loadEventsOfMonth(date, dateFrom, dateTo)
+    }
+    
+   
 
     
+  }
+
+  loadEventsOfMonth(date, dateFrom, dateTo){
+
+    let loader = this.loadingCtrl.create({
+      content: "Espere por favor...",
+
+    });
+    if (this.networkService.noConnection()) {
+      this.networkService.showNetworkAlert();
+    } else {
+      this.schedulesLoaded = false
+      this.medicService.findSchedules(this.authUser.id, dateFrom, dateTo)
+        .then(data => {
+          this.schedules = data;
+          this.schedulesLoaded = true
+
+          let events = [];
+          data.forEach(schedule => {
+
+
+
+            let title = schedule.office.name;
+
+
+
+            let event = {
+              id: schedule.id,
+              title: title,
+              startTime: new Date(moment(schedule.start).format("YYYY-MM-DD HH:mm")),
+              endTime: new Date(moment(schedule.end).format("YYYY-MM-DD HH:mm")),
+              startFormatted: moment(schedule.start).format("YYYY-MM-DD HH:mm"),
+              endFormatted: moment(schedule.start).format("YYYY-MM-DD HH:mm"),
+              //start: startEvent,
+              //end: endEvent,
+              allDay: false,
+              office_id: schedule.office_id,
+              medic_id: schedule.user_id,
+              office: schedule.office,
+              medic: schedule.user,
+              background_color: '#6e6e6e' //gris para lo ya ocupados
+
+            }
+
+            events.push(event);
+
+
+
+
+
+
+          });
+
+          this.markDays.forEach(markDay => {
+            events.push(markDay);
+          });
+
+          this.eventSource = events;
+          loader.dismiss();
+
+          let event = {
+            title: 'Horario',
+            startTime: new Date(moment(date).format("YYYY-MM-DD HH:mm")),
+            endTime: new Date(moment(date).format("YYYY-MM-DD HH:mm")),
+            date: moment(date).format("YYYY-MM-DD"),
+            ini: this.authUser.settings.minTime,
+            fin: this.authUser.settings.maxTime,
+            start: moment(date).format("YYYY-MM-DD") + 'T' + this.authUser.settings.minTime,
+            end: moment(date).format("YYYY-MM-DD") + 'T' + this.authUser.settings.maxTime,
+            allDay: false,
+            background_color: '#3c8dbc' //azul para los seleccionados
+          }
+          console.log(event)
+
+          let index = this.eventSource.findIndex(x => x.date === event.date);
+          console.log('index' + index)
+          let indexMarkDays = this.markDays.findIndex(x => x.date === event.date);
+          console.log('index' + index)
+
+          if (index !== -1) {
+
+            this.eventSource.splice(index, 1);
+            this.markDays.splice(indexMarkDays, 1);
+            this.calendar.loadEvents();
+            console.log('se encontro')
+
+          } else {
+
+            var current = moment().format("YYYY-MM-DD");
+
+            if (!moment(date).isBefore(current)){
+              
+              if (this.isReserved(event.start, event.end)) {
+
+                let toast = this.toastCtrl.create({
+                  message: 'No se puede seleccionar este día por que hay colision de horarios. Por favor revisar!!!',
+                  cssClass: 'mytoast error',
+                  duration: 3000
+                });
+                toast.present(toast);
+
+
+              } else {
+
+              
+              
+                if (this.schedulesLoaded) {
+
+                  this.markDays.push(event);
+
+                  this.eventSource.push(event);
+                  this.calendar.loadEvents();
+
+                }
+
+              }
+            }
+
+          }
+          console.log(this.markDays)
+
+
+
+
+
+        })
+        .catch(error => {
+
+          let message = 'Ha ocurrido un error obteniendo los horarios';
+
+          let toast = this.toastCtrl.create({
+            message: message,
+            cssClass: 'mytoast error',
+            duration: 3000
+          });
+
+          toast.present(toast);
+          loader.dismiss();
+
+
+        });
     }
-    console.log(this.markDays)
+
+
   }
  
 
