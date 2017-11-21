@@ -48,15 +48,15 @@ export class AppointmentsPage {
         // this.scheduledAppointments = data//.scheduledAppointments;
         // loader.dismiss();
        
-        data.data.forEach(appointment => {
+       /* data.data.forEach(appointment => {
           this.appointments.push(appointment);
         
 
-        });
-
+        });*/
+        this.appointments = data.data;
         //this.currentPage = data.currentPage
-        this.currentPage = data.current_page;
-        this.lastPage = data.last_page;
+        //this.currentPage = data.current_page;
+        //this.lastPage = data.last_page;
        
 
         console.log('Async operation has ended');
@@ -150,14 +150,15 @@ export class AppointmentsPage {
         // console.log(data)
         // this.scheduledAppointments = data//.scheduledAppointments;
         // loader.dismiss();
-        data.data.forEach(appointment => {
+        /*data.data.forEach(appointment => {
           this.appointments.push(appointment);
          
-        });
+        });*/
+        this.appointments = data;
 
         //this.currentPage = data.currentPage
-        this.currentPage = data.current_page;
-        this.lastPage = data.last_page;
+        //this.currentPage = data.current_page;
+        //this.lastPage = data.last_page;
         loader.dismiss();
 
       })

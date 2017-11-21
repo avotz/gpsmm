@@ -2,6 +2,9 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { Badge } from '@ionic-native/badge';
+
+
 import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
 import { PatientsPage } from '../pages/patients/patients';
@@ -23,7 +26,7 @@ export class MyApp {
   
   pages: Array<{title: string, component: any}>
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public alertCtrl: AlertController, public authService: AuthServiceProvider) {
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public alertCtrl: AlertController, public authService: AuthServiceProvider, public badge: Badge) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -62,8 +65,9 @@ export class MyApp {
             message: notification.body
           })
           alert.present()
-         
+          this.badge.increase(1);
         }
+        this.badge.increase(1);
       }, (error) => {
         console.error(error);
       })
@@ -90,7 +94,7 @@ export class MyApp {
       if((window.localStorage.getItem('token') === "undefined" || window.localStorage.getItem('token') === null)) {
         this.rootPage = LoginPage;
       } else {
-          
+       
           this.rootPage = HomePage;
       }
       

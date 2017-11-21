@@ -14,6 +14,7 @@ import { Transfer } from '@ionic-native/transfer';
 import { FilePath } from '@ionic-native/file-path';
 import { Camera } from '@ionic-native/camera';
 import { NgCalendarModule } from 'ionic2-calendar';
+import { Badge } from '@ionic-native/badge';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -31,8 +32,8 @@ import { AccountPage } from '../pages/account/account';
 import { AgendaPage } from '../pages/agenda/agenda';
 import { ModalSchedulePage } from '../pages/agenda/modal-schedule';
 import { SchedulePage } from '../pages/agenda/schedule';
-import { TabJornadaPage } from '../pages/agenda/tab-jornada';
-import { TabDiaPage } from '../pages/agenda/tab-dia';
+//import { TabJornadaPage } from '../pages/agenda/tab-jornada';
+//import { TabDiaPage } from '../pages/agenda/tab-dia';
 
 import { NetworkServiceProvider } from '../providers/network-service/network-service';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
@@ -59,9 +60,8 @@ import { ScheduleServiceProvider } from '../providers/schedule-service/schedule-
     AccountPage,
     AgendaPage,
     ModalSchedulePage,
-    SchedulePage,
-    TabJornadaPage,
-    TabDiaPage
+    SchedulePage
+   
   ],
   imports: [
     BrowserModule,
@@ -86,9 +86,8 @@ import { ScheduleServiceProvider } from '../providers/schedule-service/schedule-
     AccountPage,
     AgendaPage,
     ModalSchedulePage,
-    SchedulePage,
-    TabJornadaPage,
-    TabDiaPage
+    SchedulePage
+    
   ],
   providers: [
     StatusBar,
@@ -102,6 +101,7 @@ import { ScheduleServiceProvider } from '../providers/schedule-service/schedule-
     FilePath,
     Transfer,
     Camera,
+    Badge,
     NetworkServiceProvider,
     AuthServiceProvider,
     PatientServiceProvider,

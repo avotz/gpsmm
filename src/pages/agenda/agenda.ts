@@ -165,7 +165,28 @@ export class AgendaPage {
     }
   }
  openSchedule(){
-   this.navCtrl.push(SchedulePage)
+  // this.navCtrl.push(SchedulePage)
+   let modal = this.modalCtrl.create(SchedulePage);
+   modal.onDidDismiss(data => {
+
+     if (data) {
+      
+       this.calendar.currentDate = new Date(data.date);
+
+       let dateFrom = moment(data.date).startOf('month').format('YYYY-MM-DD');
+       let dateTo = moment(data.date).endOf('month').format('YYYY-MM-DD');
+
+       this.loadEventsOfMonth(dateFrom, dateTo)
+
+
+
+     }
+
+
+
+   });
+
+   modal.present();
  }
  openModalSchedule(schedule){
 
@@ -193,10 +214,10 @@ export class AgendaPage {
    modal.onDidDismiss(data => {
     
      if (data){
-
+       this.calendar.currentDate = new Date(data.date);
        let dateFrom = moment(data.date).startOf('month').format('YYYY-MM-DD');
        let dateTo = moment(data.date).endOf('month').format('YYYY-MM-DD');
-
+       this.calendar.currentDate = moment(data.date)
 
          this.loadEventsOfMonth(dateFrom, dateTo)
 

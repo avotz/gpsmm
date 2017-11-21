@@ -17,7 +17,11 @@ page-agenda {
     .monthview-selected[_ngcontent-c1]{ background-color: map-get($colors, primary);}
     
      .multiple-events{
-        background-color: red;
+        //background-color: red;
+        background: -webkit-gradient(linear, left top, right bottom, color-stop(1%, #6e6e6e), color-stop(52%, #6e6e6e), color-stop(52%, red), color-stop(52%, red), color-stop(100%, red));
+            background: -moz-gradient(linear, left top, right bottom, color-stop(1%, #6e6e6e), color-stop(52%, #6e6e6e), color-stop(52%, red), color-stop(52%, red), color-stop(100%, red));
+            background: -o-gradient(linear, left top, right bottom, color-stop(1%, #6e6e6e), color-stop(52%, #6e6e6e), color-stop(52%, red), color-stop(52%, red), color-stop(100%, red));
+            background: gradient(linear, left top, right bottom, color-stop(1%, #6e6e6e), color-stop(52%, #6e6e6e), color-stop(52%, red), color-stop(52%, red), color-stop(100%, red));
     }
     .monthview-selected{
 

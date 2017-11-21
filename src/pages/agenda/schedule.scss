@@ -1,15 +1,19 @@
 page-schedule {
    
+   .card-md, .card-ios{
+        background: #eee;
+        .item-md, .item-ios{
+            background: transparent;
+        }
+    }
+    .errors{
+        text-align: center;
+    }
     p.error{
         color: #ea6153;
         border: 0;
         margin-bottom: 0;
       }
-    .loading{
-        /*margin-top: 10px;
-        margin-left: 1rem;*/
-        text-align: center
-    }
     
     .tabs-md .tab-button[aria-selected=false], .tabs-ios .tab-button[aria-selected=false]{
         color: #fff; /*your  text color */
@@ -18,6 +22,35 @@ page-schedule {
     .tabs-md .tab-button[aria-selected=true],  .tabs-ios .tab-button[aria-selected=true]{
         color: #fff; /*your  text color */
         background: map-get($colors, danger); /* your background color*/
+    }
+
+     .scheduleForm{
+        margin-top: -32px;
+    }
+     .monthview-primary-with-event[_ngcontent-c1]{
+        position: relative;
+        padding: 0px !important;
+    }
+    .monthview-secondary-with-event[_ngcontent-c1]{
+        position: relative;
+        padding: 0px !important;
+    }
+    .monthview-selected[_ngcontent-c1]{
+        background-color:transparent;
+        color:#000;
+    }
+    .monthview-primary-with-event[_ngcontent-c1]{
+       background-color: #6e6e6e !important;
+       /*.multiple-events{
+           background: -webkit-gradient(linear, left top, right bottom, color-stop(1%, #6e6e6e), color-stop(52%, #6e6e6e), color-stop(52%, red), color-stop(52%, red), color-stop(100%, red));
+            background: -moz-gradient(linear, left top, right bottom, color-stop(1%, #6e6e6e), color-stop(52%, #6e6e6e), color-stop(52%, red), color-stop(52%, red), color-stop(100%, red));
+            background: -o-gradient(linear, left top, right bottom, color-stop(1%, #6e6e6e), color-stop(52%, #6e6e6e), color-stop(52%, red), color-stop(52%, red), color-stop(100%, red));
+            background: gradient(linear, left top, right bottom, color-stop(1%, #6e6e6e), color-stop(52%, #6e6e6e), color-stop(52%, red), color-stop(52%, red), color-stop(100%, red));
+       }*/
+    }
+    
+    .header-title{
+        text-align: center;
     }
 
 }
