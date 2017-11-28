@@ -33,6 +33,7 @@ export class ModalClinicPage {
         this.authUser = JSON.parse(window.localStorage.getItem('auth_user'));
 
         this.errorSave = '';
+     
         this.clinicForm = formBuilder.group({
             name: [this.clinic.name, Validators.required],
             phone: [this.clinic.phone, Validators.required],
@@ -42,7 +43,7 @@ export class ModalClinicPage {
             district: [this.clinic.district, Validators.required],
             lat: [this.clinic.lat],
             lon: [this.clinic.lon],
-            bill_to: [this.clinic.bill_to],
+            bill_to: [(this.clinic.bill_to) ? this.clinic.bill_to : 'M'],
             ide: [this.clinic.ide],
             ide_name: [this.clinic.ide_name],
             type: ['Consultorio Independiente']
@@ -52,6 +53,14 @@ export class ModalClinicPage {
 
 
 
+    }
+    onChangeBillTo(evt) {
+        console.log(evt)
+        //this.clinicForm.get('page').setValue(evt)
+    }
+    isPersonaJuridica() {
+
+        return this.clinicForm.get('bill_to').value == 'C';
     }
     isPrivate(){
      
