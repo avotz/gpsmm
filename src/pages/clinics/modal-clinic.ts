@@ -42,6 +42,9 @@ export class ModalClinicPage {
             district: [this.clinic.district, Validators.required],
             lat: [this.clinic.lat],
             lon: [this.clinic.lon],
+            bill_to: [this.clinic.bill_to],
+            ide: [this.clinic.ide],
+            ide_name: [this.clinic.ide_name],
             type: ['Consultorio Independiente']
            
 
@@ -281,6 +284,33 @@ export class ModalClinicPage {
         else
             this.viewCtrl.dismiss();
 
+    }
+
+    ngOnInit() {
+
+        console.log('on init')
+        this.clinicForm.get('bill_to').valueChanges.subscribe(
+
+            (bill_to: string) => {
+
+                if (bill_to == 'M') {
+
+                    this.clinicForm.get('ide').setValidators([]);
+                    this.clinicForm.get('ide_name').setValidators([]);
+
+                } else {
+
+                  
+                    this.clinicForm.get('ide').setValidators([Validators.required]);
+                    this.clinicForm.get('ide_name').setValidators([Validators.required]);
+                }
+
+                this.clinicForm.get('ide').updateValueAndValidity();
+                this.clinicForm.get('ide_name').updateValueAndValidity();
+
+            }
+
+        )
     }
 
 }

@@ -71,6 +71,26 @@
 
           <p *ngIf="!clinicForm.controls.phone.valid  && (clinicForm.controls.phone.dirty || submitAttempt)" class="error">Por favor ingrese un teléfono.</p>
 
+          <ion-item *ngIf="!isPrivate()">
+            <ion-label floating>Facturación</ion-label>
+            <ion-select formControlName="bill_to" disabled="{{ isPrivate() }}">
+              <ion-option value="M">Persona física</ion-option>
+              <ion-option value="C">Persona Jurídica</ion-option>
+          
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-label floating>Cédula Juri.</ion-label>
+            <ion-input formControlName="ide" type="text" [class.invalid]="!clinicForm.controls.ide.valid && (clinicForm.controls.ide.dirty || submitAttempt)"></ion-input>
+          </ion-item>
+          
+          <p *ngIf="!clinicForm.controls.ide.valid  && (clinicForm.controls.ide.dirty || submitAttempt)" class="error">Por favor ingrese una Cédula jurídica.</p>
+          <ion-item>
+            <ion-label floating>Nombre Juri.</ion-label>
+            <ion-input formControlName="ide_name" type="text" [class.invalid]="!clinicForm.controls.ide_name.valid && (clinicForm.controls.ide_name.dirty || submitAttempt)"></ion-input>
+          </ion-item>
+          
+          <p *ngIf="!clinicForm.controls.ide_name.valid  && (clinicForm.controls.phone.dirty || submitAttempt)" class="error">Por favor ingrese un nombre.</p>
 
           <ion-grid>
             
