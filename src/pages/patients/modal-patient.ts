@@ -31,11 +31,11 @@ export class ModalPatientPage {
             birth_date: [this.patient.birth_date, Validators.required],
             gender: [this.patient.gender, Validators.required],
             phone: [this.patient.phone, Validators.required],
-            email: [this.patient.email, Validators.required],
+            email: [this.patient.email],
             address: [this.patient.address],
             province: [this.patient.province, Validators.required],
             city: [this.patient.city],
-            password: ['123456',Validators.required],
+            password: [''],
 
         });
 
@@ -87,28 +87,31 @@ export class ModalPatientPage {
 
                             let message = 'Ha ocurrido un error registrando el paciente.';
                             let errorSaveText = error.statusText;
-                            
-                            if(error.status == 422)
-                            {
+                            let errorSaveTextPhone = error.statusText;
+                            if (error.status == 422) {
+                                errorSaveText = "";
+                                errorSaveTextPhone = "";
                                 let body = JSON.parse(error._body)
-                                
-                                errorSaveText = body.errors.email[0]
+                                if (body.errors.email)
+                                     errorSaveText = body.errors.email[0]
+                                if (body.errors.phone)
+                                    errorSaveTextPhone = body.errors.phone[0]
 
-                                message = message + errorSaveText
-                                
-                             }
+                                message = message + errorSaveText + ' ' + errorSaveTextPhone
+
+                            }
 
                             let toast = this.toastCtrl.create({
-                               message: message,
-                               cssClass: 'mytoast error',
-                               duration: 3000
-                             });
+                                message: message,
+                                cssClass: 'mytoast error',
+                                duration: 4500
+                            });
                    
                              toast.present(toast);
                              this.isWaiting = null;
                            
                             
-                            this.errorSave = errorSaveText
+                            this.errorSave = errorSaveText + ' ' + errorSaveTextPhone
                             console.log(error);
 
                         });
@@ -140,28 +143,34 @@ export class ModalPatientPage {
                         .catch(error => {
                             let message = 'Ha ocurrido un error registrando el paciente.';
                             let errorSaveText = error.statusText;
-                            
+                            let errorSaveTextPhone = error.statusText;
+
                             if(error.status == 422)
                             {
+                                errorSaveText = "";
+                                errorSaveTextPhone = "";
                                 let body = JSON.parse(error._body)
                                 
-                                errorSaveText = body.errors.email[0]
-
-                                message = message + errorSaveText
+                                if (body.errors.email)
+                                    errorSaveText = body.errors.email[0]
+                                if (body.errors.phone)
+                                    errorSaveTextPhone = body.errors.phone[0]
+                                    
+                                message = message + errorSaveText + ' '+ errorSaveTextPhone
                                 
                              }
 
                             let toast = this.toastCtrl.create({
                                message: message,
                                cssClass: 'mytoast error',
-                               duration: 3500
+                               duration: 4500
                              });
                    
                              toast.present(toast);
                              this.isWaiting = null;
                            
                             
-                            this.errorSave = errorSaveText
+                            this.errorSave = errorSaveText + ' '+ errorSaveTextPhone
                             console.log(error);
 
                         });
