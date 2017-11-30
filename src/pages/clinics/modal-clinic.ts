@@ -113,9 +113,11 @@ export class ModalClinicPage {
                             
                             if(error.status == 422)
                             {
+                                errorSaveText = ""
                                 let body = JSON.parse(error._body)
                                 
-                                errorSaveText = body.errors.email[0]
+                                if (body.errors.email)
+                                    errorSaveText = body.errors.email[0]
 
                                 message = message + errorSaveText
                                 
@@ -166,9 +168,11 @@ export class ModalClinicPage {
                             
                             if(error.status == 422)
                             {
+                                errorSaveText = ""
                                 let body = JSON.parse(error._body)
                                 
-                                errorSaveText = body.errors.email[0]
+                                if (body.errors.email)
+                                    errorSaveText = body.errors.email[0]
 
                                 message = message + errorSaveText
                                 
