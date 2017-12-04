@@ -109,7 +109,7 @@
             <ion-input formControlName="password" type="text" [class.invalid]="!patientForm.controls.password.valid && (patientForm.controls.password.dirty || submitAttempt)"></ion-input>
            
           </ion-item>
-          <p class="warning">Recordar al usuario que su perfil queda creado y que esta es su clave genérica.</p>
+          <p *ngIf="!patient.id" class="warning">Recordar al usuario que su perfil queda creado y que esta es su clave genérica. Si dejas el espacio en blanco la contraseña sera el numero de teléfono</p>
           <p *ngIf="!patientForm.controls.password.valid  && (patientForm.controls.password.dirty || submitAttempt)" class="error">Por favor ingrese una Contraseña.</p>  
 
 
