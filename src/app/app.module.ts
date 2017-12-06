@@ -15,6 +15,7 @@ import { FilePath } from '@ionic-native/file-path';
 import { Camera } from '@ionic-native/camera';
 import { NgCalendarModule } from 'ionic2-calendar';
 import { Badge } from '@ionic-native/badge';
+//import { FCM } from '@ionic-native/fcm';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -109,6 +110,7 @@ import { ScheduleServiceProvider } from '../providers/schedule-service/schedule-
     ClinicServiceProvider,
     MedicServiceProvider,
     ScheduleServiceProvider,
+    //FCM,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     {provide: LOCALE_ID, useValue: 'es-CR'},
   ]

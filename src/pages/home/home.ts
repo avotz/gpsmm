@@ -14,14 +14,22 @@ import { AgendaPage } from '../agenda/agenda';
 })
 
 export class HomePage {
+  notifications: any;
 
   constructor(public navCtrl: NavController, public badge: Badge) {
     
-  }
+    this.notifications = this.badge.get();
+    // console.log(this.notifications.value)
+    // console.log(this.notifications.length)
+    // console.log(this.notifications.t)
+    // console.log(this.notifications)
 
+  }
+ 
   appointments() {
        // FirebasePlugin.setBadgeNumber(0);
         this.badge.clear();
+        
         this.navCtrl.push(AppointmentsPage)
       
     

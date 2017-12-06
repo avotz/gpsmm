@@ -3,7 +3,7 @@ import { Nav, Platform, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Badge } from '@ionic-native/badge';
-
+//import { FCM } from '@ionic-native/fcm';
 
 import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
@@ -26,12 +26,46 @@ export class MyApp {
   
   pages: Array<{title: string, component: any}>
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public alertCtrl: AlertController, public authService: AuthServiceProvider, public badge: Badge) {
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public alertCtrl: AlertController, public authService: AuthServiceProvider, public badge: Badge/*, public fcm: FCM*/) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
+
+     /* fcm.getToken().then(token => {
+        console.log(token)
+        if (token) {
+          window.localStorage.setItem('push_token', token)
+          this.savePushToken(token)
+        }
+      })
+
+      fcm.onNotification().subscribe(data => {
+        if (data.wasTapped) {
+          //alert(JSON.stringify(data));
+          console.log("Received in background");
+          this.badge.increase(1);
+        } else {
+          alert(JSON.stringify(data));
+          // let alert = alertCtrl.create({
+          //   title: data.notification.title,
+          //   message: data.notification.body
+          // })
+          // alert.present()
+          this.badge.increase(1);
+        }
+        //console.log(data)
+        //alert(data);
+       
+      })
+
+      fcm.onTokenRefresh().subscribe(token => {
+        if (token) {
+          window.localStorage.setItem('push_token', token)
+          this.savePushToken(token)
+        }
+      })*/
 
       FirebasePlugin.getToken(token => {
         // save this server-side and use it to push notifications to this device

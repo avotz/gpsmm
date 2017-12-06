@@ -85,8 +85,8 @@
             "cordova-plugin-filepath": {},
             "cordova-plugin-compat": {},
             "cordova-plugin-camera": {},
-            "cordova-plugin-firebase": {},
-            "cordova-plugin-badge": {}
+            "cordova-plugin-badge": {},
+            "cordova-plugin-firebase": {}
         },
         "platforms": [
             "android"
