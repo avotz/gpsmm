@@ -16,6 +16,9 @@ import { Camera } from '@ionic-native/camera';
 import { NgCalendarModule } from 'ionic2-calendar';
 import { Badge } from '@ionic-native/badge';
 //import { FCM } from '@ionic-native/fcm';
+import { registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es';
+registerLocaleData(localeEs);
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -33,6 +36,7 @@ import { AccountPage } from '../pages/account/account';
 import { AgendaPage } from '../pages/agenda/agenda';
 import { ModalSchedulePage } from '../pages/agenda/modal-schedule';
 import { SchedulePage } from '../pages/agenda/schedule';
+//import { Schedule2Page } from '../pages/agenda/schedule2';
 //import { TabJornadaPage } from '../pages/agenda/tab-jornada';
 //import { TabDiaPage } from '../pages/agenda/tab-dia';
 
@@ -61,7 +65,8 @@ import { ScheduleServiceProvider } from '../providers/schedule-service/schedule-
     AccountPage,
     AgendaPage,
     ModalSchedulePage,
-    SchedulePage
+    SchedulePage,
+    
    
   ],
   imports: [
@@ -88,6 +93,7 @@ import { ScheduleServiceProvider } from '../providers/schedule-service/schedule-
     AgendaPage,
     ModalSchedulePage,
     SchedulePage
+   
     
   ],
   providers: [

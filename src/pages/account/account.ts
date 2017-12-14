@@ -280,15 +280,15 @@ export class AccountPage {
 
       // File name only
       var filename = this.lastImage;
-
-
+     
       var options = {
         fileKey: "photo",
         fileName: filename,
-        chunkedMode: false,
+        //chunkedMode: false,
         mimeType: "multipart/form-data",
         params: { 'fileName': filename },
         headers: {
+          'Connection': "close",
           'Accept': 'application/json',
           'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         }

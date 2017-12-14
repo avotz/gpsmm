@@ -6,6 +6,7 @@ import { ScheduleServiceProvider } from '../../providers/schedule-service/schedu
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import { ModalSchedulePage } from './modal-schedule';
 import { SchedulePage } from './schedule';
+//import { Schedule2Page } from './schedule2';
 import moment from 'moment'
 @Component({
   selector: 'page-agenda',
@@ -165,7 +166,7 @@ export class AgendaPage {
     }
   }
  openSchedule(){
-  // this.navCtrl.push(SchedulePage)
+   //this.navCtrl.push(Schedule2Page)
    let modal = this.modalCtrl.create(SchedulePage);
    modal.onDidDismiss(data => {
 
