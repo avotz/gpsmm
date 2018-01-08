@@ -94,11 +94,32 @@ export class MyApp {
 
       FirebasePlugin.onNotificationOpen(notification => {
         if (!notification.tap) {
-          let alert = alertCtrl.create({
+
+          let confirm = this.alertCtrl.create({
             title: notification.title,
-            message: notification.body
-          })
-          alert.present()
+            message: notification.body,
+            buttons: [
+              {
+                text: 'Cerrar',
+                handler: () => {
+                  confirm.dismiss();
+                }
+              },
+              {
+                text: 'Ir a citas',
+                handler: () => {
+                  this.nav.push(AppointmentsPage);
+                }
+              }
+            ]
+          });
+          confirm.present();
+          // let alert = alertCtrl.create({
+          //   title: notification.title,
+          //   message: notification.body
+          // })
+          // alert.present()
+
           this.badge.increase(1);
         }
         this.badge.increase(1);
