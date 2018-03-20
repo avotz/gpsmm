@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController, ToastController } from 'ionic-angular';
+import { NavController, LoadingController, ToastController, Events } from 'ionic-angular';
 import { Badge } from '@ionic-native/badge';
 
 import { PatientsPage } from '../patients/patients';
@@ -20,18 +20,36 @@ export class HomePage {
   notifications: any;
   currentPage: any = 1;
   totalAppointments: number = 0;
-  constructor(public navCtrl: NavController, public badge: Badge, public networkService: NetworkServiceProvider, public appointmentService: AppointmentServiceProvider, public loadingCtrl: LoadingController, public toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public badge: Badge, public networkService: NetworkServiceProvider, public appointmentService: AppointmentServiceProvider, public loadingCtrl: LoadingController, public toastCtrl: ToastController, public events: Events) {
     
-    this.notifications = this.badge.get();
-    // console.log(this.notifications.value)
-    // console.log(this.notifications.length)
-    // console.log(this.notifications.t)
-    console.log(this.notifications)
+    this.getbadges();
     
+    this.events.subscribe('notifications:updated', (count) => {
+     
+      this.notifications++;
+      this.totalAppointments++;
+    });
+
+     this.events.subscribe('notifications:clear', (count) => {
+     
+       this.notifications = count;
+       this.totalAppointments = count;
+
+    });
+    
+  }
+  
+  async getbadges(){
+    try {
+      this.notifications = await this.badge.get();
+      console.log(this.notifications);
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   ionViewWillEnter() { // THERE IT IS!!!
-    return this.getAppointmentsFromUser();
+    //return this.getAppointmentsFromUser();
   }
 
   getAppointmentsFromUser() {
@@ -74,9 +92,10 @@ export class HomePage {
   }
  
   appointments() {
-       // FirebasePlugin.setBadgeNumber(0);
+       
         this.badge.clear();
-        
+        this.events.publish('notifications:clear', 0);
+
         this.navCtrl.push(AppointmentsPage)
       
     
