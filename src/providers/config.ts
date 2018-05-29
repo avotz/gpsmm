@@ -1,1 +1,1 @@
-export let SERVER_URL = "https://app.gpsmedica.com";
+export let SERVER_URL = "http://gpsmedica.test";

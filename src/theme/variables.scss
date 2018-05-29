@@ -34,17 +34,18 @@ $app-direction: ltr;
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #3c8dbc,
-  secondary:  #32db64,
+  primary:    #14B0A5,
+  secondary:  #F0EAD2,
   danger:     #f53d3d,
   light:      #f4f4f4,
   dark:       #222,
+  gris: #4F6466,
   facebook:   #3b5998,
   google: #d34836,
   celeste: #00c0ef,
   verde: #00a65a,
   amarillo: #f39c12,
-  gris:#6e6e6e
+  turquesa: #67BC9A
 );
 
 
@@ -95,7 +96,7 @@ $colors: (
 
 .ios, .md{
   .toolbar-background-md, .toolbar-background-ios{
-   background:#3c8dbc;
+   background:map-get($colors, primary);
    color:white;
   }
   .bar-button-default-ios, .toolbar-title-ios{
@@ -120,7 +121,7 @@ $colors: (
  background-color: map-get($colors, danger);
 }
 .mytoast.success .toast-wrapper{
- background-color: map-get($colors, secondary);
+ background-color: map-get($colors, turquesa);
 }
 .mytoast.warning .toast-wrapper{
  background-color: map-get($colors, amarillo);
