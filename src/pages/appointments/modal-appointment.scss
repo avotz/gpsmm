@@ -10,13 +10,13 @@ modal-appointment {
         text-align: center
     }
     .card-md, .card-ios{
-        background: #eee;
+        background: map-get($colors, secondary);;
         .item-md, .item-ios{
             background: transparent;
         }
     }
     ion-card-header{
-        background: map-get($colors, secondary);
+        background: map-get($colors, turquesa);
         color: white !important;
     }
     ion-card-header.disease_notes{

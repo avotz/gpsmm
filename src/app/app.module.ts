@@ -26,7 +26,7 @@ import { LoginPage } from '../pages/login/login';
 import { PatientsPage } from '../pages/patients/patients';
 import { ModalPatientPage } from '../pages/patients/modal-patient';
 import { HistoryPatientPage } from '../pages/patients/history-patient';
-import { ModalAppointmentPage } from '../pages/patients/modal-appointment';
+import { ModalAppointmentPage } from '../pages/appointments/modal-appointment';
 import { AppointmentsPage } from '../pages/appointments/appointments';
 import { ClinicsPage } from '../pages/clinics/clinics';
 import { ModalClinicPage } from '../pages/clinics/modal-clinic';

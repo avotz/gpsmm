@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController, ModalController, ToastController, ActionSheetController } from 'ionic-angular';
 import { PatientServiceProvider } from '../../providers/patient-service/patient-service';
 import { NetworkServiceProvider } from '../../providers/network-service/network-service';
-import { ModalAppointmentPage } from './modal-appointment';
+import { ModalAppointmentPage } from '../appointments/modal-appointment';
 import { SERVER_URL } from '../../providers/config';
 import moment from 'moment'
 

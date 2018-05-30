@@ -20,7 +20,7 @@ export class ModalSchedulePage {
     authUser: any;
     clinics: any[] = [];
     clinicSelected: any;
-    clinicColorSelected: string = '#00c0ef';
+    clinicColorSelected: string = '#67BC9A';
     isWaiting: boolean = null;
     scheduleForm: FormGroup;
     currentPage: any = 1;
@@ -122,7 +122,7 @@ export class ModalSchedulePage {
 
                      
                             console.log(index)
-                            let currColor = colors[index];
+                            let currColor = '#67BC9A'//colors[index];
 
                             if (!currColor) currColor = '#00c0ef';
                              clinic.currColor = currColor

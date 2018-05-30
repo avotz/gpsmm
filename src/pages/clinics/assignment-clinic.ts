@@ -74,7 +74,18 @@ export class AssignmentClinicPage {
              .catch(error => {
                   message = 'Ha ocurrido un error agregando la clínica.';
                  let errorSaveText = error.statusText;
-                 
+
+                 if (error.status == 422) {
+                     
+                     let body = JSON.parse(error._body)
+
+                     if (body.message)
+                         errorSaveText = body.message
+                     
+
+                     message = errorSaveText
+
+                 }
 
                  let toast = this.toastCtrl.create({
                     message: message,
@@ -127,7 +138,7 @@ export class AssignmentClinicPage {
              .then(data => {
                  //loader.dismiss();
 
-                 this.clinics = data;
+                 this.clinics = data.data;
                  this.isWaiting = false;
              })
              .catch(error => {

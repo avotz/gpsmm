@@ -46,7 +46,7 @@ export class ModalClinicPage {
             bill_to: [(this.clinic.bill_to) ? this.clinic.bill_to : 'M'],
             ide: [this.clinic.ide],
             ide_name: [this.clinic.ide_name],
-            type: ['Consultorio Independiente']
+            type: ['1']
            
 
         });
@@ -64,7 +64,7 @@ export class ModalClinicPage {
     }
     isPrivate(){
      
-       return this.clinic.type == 'Clínica Privada';
+       return this.clinic.type == '2';
     }
     saveClinic() {
         if (this.networkService.noConnection()) {
@@ -213,7 +213,7 @@ export class ModalClinicPage {
     
       loadCantones(prov) {
         provinces.forEach(provincia => {
-          if (provincia.title == prov) {
+          if (provincia.id == prov) {
             this.cantones = provincia.cantones
           }
     
@@ -223,7 +223,7 @@ export class ModalClinicPage {
     
         this.cantones.forEach(canton => {
     
-          if (canton.title == cant) {
+          if (canton.id == cant) {
             this.districts = canton.distritos
           }
     

@@ -79,8 +79,8 @@ export class AccountPage {
         .then(resp => {
           
           this.user = resp;
-          let d = new Date();
-          this.user.photo = this.user.photo + '?' + d.getTime()
+          //let d = new Date();
+          //this.user.photo = this.user.avatar_path + '?' + d.getTime()
 
           console.log(resp)
          
@@ -92,7 +92,8 @@ export class AccountPage {
 
               this.accountForm.get('name').setValue(this.user.name)
               this.accountForm.get('email').setValue(this.user.email)
-              this.accountForm.get('phone').setValue(this.user.phone)
+              this.accountForm.get('phone_country_code').setValue(this.user.phone_country_code)
+              this.accountForm.get('phone_number').setValue(this.user.phone_number)
               this.accountForm.get('medic_code').setValue(this.user.medic_code)
               this.accountForm.get('minTime').setValue(this.user.settings.minTime)
               this.accountForm.get('maxTime').setValue(this.user.settings.maxTime)
@@ -110,7 +111,7 @@ export class AccountPage {
         })
         .catch(error => {
 
-          let message = 'Ha ocurrido un error en actualizando la cuenta';
+          let message = 'Ha ocurrido un error obteniendo la informacion de la cuenta';
           
                   let toast = this.toastCtrl.create({
                     message: message,
@@ -274,7 +275,7 @@ export class AccountPage {
       this.networkService.showNetworkAlert();
     } else {
       // Destination URL
-      var url = `${this.serverUrl}/api/medic/account/avatars`;
+      var url = `${this.serverUrl}/api/users/${this.user.id}/avatar`;
 
       // File for Upload
       var targetPath = this.pathForImage(this.lastImage);
@@ -338,7 +339,7 @@ export class AccountPage {
         this.transformToArray_FreeDays();
 
         loader.present();
-
+       
         console.log(this.accountForm.value)
         console.log(this.arrayFreeDays)
         

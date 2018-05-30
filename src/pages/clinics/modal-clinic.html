@@ -38,13 +38,13 @@
           <ion-item>
             <ion-label floating>Provincia</ion-label>
             <ion-select formControlName="province" [class.invalid]="!clinicForm.controls.province.valid && (clinicForm.controls.province.dirty || submitAttempt)" (ionChange)="onChangeProvince($event)" disabled="{{ isPrivate() }}">
-              <ion-option value="Guanacaste">Guanacaste</ion-option>
-              <ion-option value="San Jose">San Jose</ion-option>
-              <ion-option value="Heredia">Heredia</ion-option>
-              <ion-option value="Limon">Limon</ion-option>
-              <ion-option value="Cartago">Cartago</ion-option>
-              <ion-option value="Puntarenas">Puntarenas</ion-option>
-              <ion-option value="Alajuela">Alajuela</ion-option>
+              <ion-option value="5">Guanacaste</ion-option>
+              <ion-option value="1">San Jose</ion-option>
+              <ion-option value="4">Heredia</ion-option>
+              <ion-option value="7">Limon</ion-option>
+              <ion-option value="3">Cartago</ion-option>
+              <ion-option value="6">Puntarenas</ion-option>
+              <ion-option value="2">Alajuela</ion-option>
             </ion-select>
           </ion-item>
          
@@ -52,14 +52,14 @@
             <ion-label floating>Cantón</ion-label>
             <ion-select formControlName="canton" (ionChange)="onChangeCanton($event)" disabled="{{ isPrivate() }}">
                 <ion-option value=""></ion-option>
-                <ion-option *ngFor="let canton of cantones" value="{{canton.title}}">{{canton.title}}</ion-option>
+                <ion-option *ngFor="let canton of cantones" value="{{canton.id}}">{{canton.title}}</ion-option>
             </ion-select>
         </ion-item>
         <ion-item>
             <ion-label floating>Distrito</ion-label>
             <ion-select formControlName="district" disabled="{{ isPrivate() }}">
                 <ion-option value=""></ion-option>
-                <ion-option *ngFor="let district of districts" value="{{district}}" >{{district}}</ion-option>
+                <ion-option *ngFor="let district of districts" value="{{district.id}}" >{{district.title}}</ion-option>
 
             </ion-select>
         </ion-item>

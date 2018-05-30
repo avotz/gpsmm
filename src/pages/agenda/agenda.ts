@@ -213,7 +213,7 @@ export class AgendaPage {
    
    let modal = this.modalCtrl.create(ModalSchedulePage, { schedule:schedule});
    modal.onDidDismiss(data => {
-    
+    debugger
      if (data){
        this.calendar.currentDate = new Date(data.date);
        let dateFrom = moment(data.date).startOf('month').format('YYYY-MM-DD');

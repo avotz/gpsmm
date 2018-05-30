@@ -155,7 +155,7 @@ export class SchedulePage {
 
 
             console.log(index)
-            let currColor = colors[index];
+            let currColor = '#67BC9A';//colors[index];
 
             if (!currColor) currColor = '#00c0ef';
             clinic.currColor = currColor
@@ -361,7 +361,7 @@ export class SchedulePage {
         start: moment(date).format("YYYY-MM-DD") + 'T' + this.scheduleForm.get('ini').value,
         end: moment(date).format("YYYY-MM-DD") + 'T' + this.scheduleForm.get('fin').value,
         allDay: false,
-        background_color: '#3c8dbc' //azul para los seleccionados
+        background_color: '#14B0A5' //primary para los seleccionados
       }
 
 
@@ -486,7 +486,7 @@ export class SchedulePage {
             start: moment(date).format("YYYY-MM-DD") + 'T' + this.scheduleForm.get('ini').value,
             end: moment(date).format("YYYY-MM-DD") + 'T' + this.scheduleForm.get('fin').value,
             allDay: false,
-            background_color: '#3c8dbc' //azul para los seleccionados
+            background_color: '#14B0A5' //primary para los seleccionados
           }
           console.log(event)
 

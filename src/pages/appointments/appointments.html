@@ -20,7 +20,7 @@
     <span>No se encontraron citas programadas del dia</span>
   </ion-item>
   <ion-item-group *ngFor="let groupDate of appointments">
-    <ion-item-divider color="light">{{dateFormat(groupDate.date)}}</ion-item-divider>
+    <ion-item-divider color="turquesa">{{dateFormat(groupDate.date)}}</ion-item-divider>
     <ion-item *ngFor="let item of groupDate.appointments">
       <h2>{{timeFormat(item.start)}} - {{item.patient.first_name}}</h2>
       <!-- <small>{{timeFormat(item.start)}} - {{timeFormat(item.end)}}</small> -->

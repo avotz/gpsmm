@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController, ModalController, ToastController, ActionSheetController } from 'ionic-angular';
-import { ModalAppointmentPage } from '../patients/modal-appointment';
+import { ModalAppointmentPage } from '../appointments/modal-appointment';
 import { AppointmentServiceProvider } from '../../providers/appointment-service/appointment-service';
 import { NetworkServiceProvider } from '../../providers/network-service/network-service';
 import moment from 'moment'
