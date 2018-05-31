@@ -3,31 +3,34 @@ page-history-patient {
         text-align: center;
     }
     ion-card-header.diagnostics{
-        background: map-get($colors, celeste);
-        color: white !important;
+        background: map-get($colors, secondary);
+        //color: white !important;
     }
     ion-card-header.allergies{
-        background: map-get($colors, primary);
-        color: white !important;
+        background: map-get($colors, secondary);
+        //color: white !important;
     }
     ion-card-header.pathologicals{
-        background: map-get($colors, danger);
-        color: white !important;
+        background: map-get($colors, secondary);
+        //color: white !important;
     }
     ion-card-header.nopathologicals{
-        background: map-get($colors, verde);
-        color: white !important;
+        background: map-get($colors, secondary);
+        //color: white !important;
     }
     ion-card-header.heredo{
-        background: map-get($colors, amarillo);
-        color: white !important;
+        background: map-get($colors, secondary);
+       // color: white !important;
     }
-    ion-card-header.ginecos{
-        background: map-get($colors, light);
-        color: white !important;
+    ion-card-header.gineco{
+        background: map-get($colors, secondary);
+        //color: white !important;
     }
     ion-card-header.labresults{
         background: map-get($colors, secondary);
-        color: white !important;
+        //color: white !important;
+    }
+    .icon-md-light{
+        color: map-get($colors, primary);
     }
 }

@@ -102,7 +102,7 @@ export class PatientServiceProvider {
             options = new RequestOptions({ headers: headers });
 
 
-        return this.http.get(SERVER_URL + '/api/medic/patients/' + patient_id + '/history', options)
+        return this.http.get(SERVER_URL + '/api/patients/' + patient_id + '/history', options)
             .map(res => res.json())
             .toPromise();
 
