@@ -66,13 +66,22 @@ export class MyApp {
           this.savePushToken(token)
         }
       })*/
+      if(platform.is('ios')){
+        FirebasePlugin.grantPermission(); //ios
+        FirebasePlugin.hasPermission(function(data){
+          console.log(data.isEnabled);
+        });
 
+      }
+      
       FirebasePlugin.getToken(token => {
         // save this server-side and use it to push notifications to this device
 
         if (token) {
           window.localStorage.setItem('push_token', token)
           this.savePushToken(token)
+          console.log(token);
+          
         }
       }, (error) => {
         console.error(error);
@@ -85,6 +94,8 @@ export class MyApp {
         if (token) {
           window.localStorage.setItem('push_token', token)
           this.savePushToken(token)
+          console.log(token);
+          
         }
 
       }, (error) => {

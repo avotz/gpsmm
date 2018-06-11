@@ -21,8 +21,8 @@ export class SchedulePage {
   schedules: any[] = [];
   schedulesToSave: any[] = [];
   clinics: any[] = [];
-  currentDate: any = new Date(moment().format("YYYY-MM-DD HH:mm"))
-  currentDateCalendar: any = new Date(moment().format("YYYY-MM-DD HH:mm"))
+  currentDate: any = moment().toDate()
+  currentDateCalendar: any = moment().toDate()
   currentMonth: any = moment().month()
   currentYear: any = moment().year()
   authUser: any;
@@ -74,6 +74,7 @@ export class SchedulePage {
     } else {
       this.medicService.findSchedules(this.authUser.id, date_from, date_to)
         .then(data => {
+          
           this.schedules = data;
           this.schedulesLoaded = true
           // this.calendar.eventSource = data;
@@ -90,8 +91,8 @@ export class SchedulePage {
             let event = {
               id: schedule.id,
               title: title,
-              startTime: new Date(moment(schedule.start).format("YYYY-MM-DD HH:mm")),
-              endTime: new Date(moment(schedule.end).format("YYYY-MM-DD HH:mm")),
+              startTime: moment(schedule.start).toDate(),//new Date(moment(schedule.start).format("YYYY-MM-DD HH:mm")),
+              endTime: moment(schedule.end).toDate(),//new Date(moment(schedule.end).format("YYYY-MM-DD HH:mm")),
               startFormatted: moment(schedule.start).format("YYYY-MM-DD HH:mm"),
               endFormatted: moment(schedule.start).format("YYYY-MM-DD HH:mm"),
               //start: startEvent,
@@ -150,7 +151,7 @@ export class SchedulePage {
         .then(data => {
 
           this.clinics = [];
-          let colors = ['#00c0ef', '#00a65a', '#f39c12', '#dd4b39', '#A9D300']
+          //let colors = ['#00c0ef', '#00a65a', '#f39c12', '#dd4b39', '#A9D300']
           data.data.forEach((clinic, index) => {
 
 
@@ -353,8 +354,8 @@ export class SchedulePage {
     if (this.currentMonth == moment(date).month() && this.currentYear == moment(date).year()) {
       let event = {
         title: 'Horario',
-        startTime: new Date(moment(date).format("YYYY-MM-DD HH:mm")),
-        endTime: new Date(moment(date).format("YYYY-MM-DD HH:mm")),
+        startTime: moment(date).toDate(),//new Date(moment(date).format("YYYY-MM-DD HH:mm")),
+        endTime: moment(date).toDate(),//new Date(moment(date).format("YYYY-MM-DD HH:mm")),
         date: moment(date).format("YYYY-MM-DD"),
         ini: this.scheduleForm.get('ini').value,
         fin: this.scheduleForm.get('fin').value,
@@ -445,8 +446,8 @@ export class SchedulePage {
             let event = {
               id: schedule.id,
               title: title,
-              startTime: new Date(moment(schedule.start).format("YYYY-MM-DD HH:mm")),
-              endTime: new Date(moment(schedule.end).format("YYYY-MM-DD HH:mm")),
+              startTime: moment(schedule.start).toDate(),//new Date(moment(schedule.start).format("YYYY-MM-DD HH:mm")),
+              endTime: moment(schedule.end).toDate(),//new Date(moment(schedule.end).format("YYYY-MM-DD HH:mm")),
               startFormatted: moment(schedule.start).format("YYYY-MM-DD HH:mm"),
               endFormatted: moment(schedule.start).format("YYYY-MM-DD HH:mm"),
               //start: startEvent,
@@ -478,8 +479,10 @@ export class SchedulePage {
 
           let event = {
             title: 'Horario',
-            startTime: new Date(moment(date).format("YYYY-MM-DD HH:mm")),
-            endTime: new Date(moment(date).format("YYYY-MM-DD HH:mm")),
+            startTime: moment(date).toDate(),
+            endTime: moment(date).toDate(),
+            //startTime: new Date(moment(date).format("YYYY-MM-DD HH:mm")),
+            //endTime: new Date(moment(date).format("YYYY-MM-DD HH:mm")),
             date: moment(date).format("YYYY-MM-DD"),
             ini: this.scheduleForm.get('ini').value,//this.authUser.settings.minTime,
             fin: this.scheduleForm.get('fin').value,//this.authUser.settings.maxTime,

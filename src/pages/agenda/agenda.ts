@@ -30,7 +30,7 @@ export class AgendaPage {
     this.authUser = JSON.parse(window.localStorage.getItem('auth_user'));
     this.params = this.navParams.data;
     this.calendar = {
-      currentDate: new Date(),
+      currentDate: moment().toDate(),
       mode: 'month',
       
     }
@@ -78,8 +78,8 @@ export class AgendaPage {
               let event = {
                 id: schedule.id,
                 title: title,
-                startTime: new Date(moment(schedule.start).format("YYYY-MM-DD HH:mm")),
-                endTime: new Date(moment(schedule.end).format("YYYY-MM-DD HH:mm")),
+                startTime: moment(schedule.start).toDate(),//new Date(moment(schedule.start).format("YYYY-MM-DD HH:mm")),
+                endTime: moment(schedule.end).toDate(),//new Date(moment(schedule.end).format("YYYY-MM-DD HH:mm")),
                 startFormatted: moment(schedule.start).format("YYYY-MM-DD HH:mm"),
                 endFormatted: moment(schedule.end).format("YYYY-MM-DD HH:mm"),
                 //start: startEvent,
@@ -101,7 +101,7 @@ export class AgendaPage {
 
 
           });
-          
+          console.log(events)
           this.eventSource = events;
 
           loader.dismiss();
@@ -172,7 +172,7 @@ export class AgendaPage {
 
      if (data) {
       
-       this.calendar.currentDate = new Date(data.date);
+       this.calendar.currentDate = moment(data.date).toDate();//new Date(data.date);
 
        let dateFrom = moment(data.date).startOf('month').format('YYYY-MM-DD');
        let dateTo = moment(data.date).endOf('month').format('YYYY-MM-DD');
@@ -216,7 +216,7 @@ export class AgendaPage {
     
      if (data){
 
-       this.calendar.currentDate = new Date(data.date);
+       this.calendar.currentDate = moment(data.date).toDate();//new Date(data.date);
        let dateFrom = moment(data.date).startOf('month').format('YYYY-MM-DD');
        let dateTo = moment(data.date).endOf('month').format('YYYY-MM-DD');
        //this.calendar.currentDate = moment(data.date)

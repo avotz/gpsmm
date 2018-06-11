@@ -55,7 +55,7 @@ export class AuthServiceProvider {
 
       options = new RequestOptions({headers: headers});
      
-     return this.http.put(SERVER_URL + '/api/medic/account/updatepush', token, options)
+     return this.http.put(SERVER_URL + '/api/account/updatepush', token, options)
          .map(res => res.json())
         .toPromise();
 

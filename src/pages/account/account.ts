@@ -231,7 +231,7 @@ export class AccountPage {
         this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
       }
     }, (err) => {
-      this.presentToast('Error while selecting image.');
+      this.presentToast('No se selecciono imagen.');
     });
   }
 
@@ -246,15 +246,21 @@ export class AccountPage {
   // Copy the image to a local folder
   private copyFileToLocalDir(namePath, currentName, newFileName) {
     this.file.copyFile(namePath, currentName, cordova.file.dataDirectory, newFileName).then(success => {
-      this.lastImage = newFileName;
+      
+        this.lastImage = newFileName;
+      
+      
+      console.log(newFileName)
+      
     }, error => {
       this.presentToast('Error while storing file.');
     });
   }
 
-  private presentToast(text) {
+  private presentToast(text, styleClass = '') {
     let toast = this.toastCtrl.create({
       message: text,
+      cssClass: 'mytoast ' + styleClass,
       duration: 3000,
       position: 'top'
     });
@@ -315,7 +321,16 @@ export class AccountPage {
       }, err => {
         loader.dismissAll()
         console.log(err.body);
-        this.presentToast('Error mientras se subia el archivo.');
+        
+        let body = JSON.parse(err.body)
+
+        if (body.errors.avatar){
+          this.presentToast(body.errors.avatar[0],'error');
+       
+        }else{
+          this.presentToast('Error mientras se subia el archivo.','error');
+
+        }
       });
     }
   }

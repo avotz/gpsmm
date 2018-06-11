@@ -117,7 +117,7 @@ export class ModalSchedulePage {
                     // this.scheduledAppointments = data//.scheduledAppointments;
                     // loader.dismiss();
                     this.clinics = [];
-                    let colors = ['#00c0ef', '#00a65a', '#f39c12', '#dd4b39', '#A9D300']
+                    //let colors = ['#00c0ef', '#00a65a', '#f39c12', '#dd4b39', '#A9D300']
                     data.data.forEach((clinic,index)=> {
 
                      
