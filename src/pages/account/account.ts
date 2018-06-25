@@ -44,7 +44,7 @@ export class AccountPage {
     this.user = JSON.parse(window.localStorage.getItem('auth_user'));
     this.user.specialities = [];
 
-    console.log(this.user)
+    console.log(JSON.stringify(this.user))
 
     this.accountForm = formBuilder.group({
       name: [this.user.name, Validators.required],
@@ -53,9 +53,9 @@ export class AccountPage {
       phone_country_code: [this.user.phone_country_code, Validators.required],
       phone_number: [this.user.phone_number, Validators.required],
       medic_code: [this.user.medic_code, Validators.required],
-      minTime: [this.user.settings.minTime],
-      maxTime: [this.user.settings.maxTime],
-      freeDays: [this.user.settings.freeDays],
+      minTime: [this.user.settings ? this.user.settings.minTime : ''],
+      maxTime: [this.user.settings ? this.user.settings.maxTime : ''],
+      freeDays: [this.user.settings ? this.user.settings.freeDays : ''],
       lun: [this.freeDaysList.lun],
       mar: [this.freeDaysList.mar],
       mie: [this.freeDaysList.mie],

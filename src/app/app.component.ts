@@ -73,7 +73,7 @@ export class MyApp {
         });
 
       }
-      
+      if(platform.is('cordova')){
       FirebasePlugin.getToken(token => {
         // save this server-side and use it to push notifications to this device
 
@@ -140,6 +140,10 @@ export class MyApp {
         console.error(error);
       })
 
+    }else{
+      console.log('firebase notification en chrome esta desabilitado')
+
+    }
 
     });
 
@@ -198,7 +202,7 @@ export class MyApp {
 
             console.log('se actualizo token de las notificaciones ' + token)
             window.localStorage.setItem('auth_user', JSON.stringify(data));
-            window.localStorage.setItem('push_token', data.push_token);
+            window.localStorage.setItem('push_token', token);
             this.rootPage = HomePage;
 
 
