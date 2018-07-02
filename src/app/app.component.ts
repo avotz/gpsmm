@@ -23,7 +23,9 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   rootPage:any = LoginPage;
-  
+  title = '';
+  body = '';
+
   pages: Array<{title: string, component: any}>
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public alertCtrl: AlertController, public authService: AuthServiceProvider, public badge: Badge, public events: Events/*, public fcm: FCM*/) {
@@ -33,39 +35,7 @@ export class MyApp {
       statusBar.styleDefault();
       splashScreen.hide();
 
-     /* fcm.getToken().then(token => {
-        console.log(token)
-        if (token) {
-          window.localStorage.setItem('push_token', token)
-          this.savePushToken(token)
-        }
-      })
-
-      fcm.onNotification().subscribe(data => {
-        if (data.wasTapped) {
-          //alert(JSON.stringify(data));
-          console.log("Received in background");
-          this.badge.increase(1);
-        } else {
-          alert(JSON.stringify(data));
-          // let alert = alertCtrl.create({
-          //   title: data.notification.title,
-          //   message: data.notification.body
-          // })
-          // alert.present()
-          this.badge.increase(1);
-        }
-        //console.log(data)
-        //alert(data);
-       
-      })
-
-      fcm.onTokenRefresh().subscribe(token => {
-        if (token) {
-          window.localStorage.setItem('push_token', token)
-          this.savePushToken(token)
-        }
-      })*/
+     
       if(platform.is('ios')){
         FirebasePlugin.grantPermission(); //ios
         FirebasePlugin.hasPermission(function(data){
@@ -104,11 +74,21 @@ export class MyApp {
       })
 
       FirebasePlugin.onNotificationOpen(notification => {
+        console.log(notification)
         if (!notification.tap) {
+          
+         
+          if(platform.is('ios')){
+            this.title = notification.aps.alert.title;
+            this.body = notification.aps.alert.body;
+          }else{
+            this.title = notification.title;
+            this.body = notification.body;
+          }
 
           let confirm = this.alertCtrl.create({
-            title: notification.title,
-            message: notification.body,
+            title: this.title,
+            message: this.body,
             buttons: [
               {
                 text: 'Cerrar',
@@ -133,6 +113,7 @@ export class MyApp {
 
          
         }
+       
         this.badge.increase(1);
         this.events.publish('notifications:updated', 1);
 

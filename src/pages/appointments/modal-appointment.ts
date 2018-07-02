@@ -121,7 +121,7 @@ export class ModalAppointmentPage {
       
   // }
   showResult(result){
-    let url = `${this.serverUrl}/storage/patients/${this.appointment.patient.id }/labresults/${result.id}/${result.name}`
+    let url = result.file_path;//`${this.serverUrl}/storage/patients/${this.appointment.patient.id }/labresults/${result.id}/${result.name}`
 
   
     let ext =  result.name.split('.').pop();
@@ -133,7 +133,7 @@ export class ModalAppointmentPage {
     
   }
   showFile(result){
-    let url = `${this.serverUrl}/storage/patients/${this.appointment.patient.id }/files/${result.name}`
+    let url = result.file_path;//`${this.serverUrl}/storage/patients/${this.appointment.patient.id }/files/${result.name}`
 
   
     let ext =  result.name.split('.').pop();
