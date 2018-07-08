@@ -27,6 +27,7 @@ import { PatientsPage } from '../pages/patients/patients';
 import { ModalPatientPage } from '../pages/patients/modal-patient';
 import { HistoryPatientPage } from '../pages/patients/history-patient';
 import { ModalAppointmentPage } from '../pages/appointments/modal-appointment';
+import { ModalCalendarPage } from '../pages/appointments/modal-calendar';
 import { AppointmentsPage } from '../pages/appointments/appointments';
 import { ClinicsPage } from '../pages/clinics/clinics';
 import { ModalClinicPage } from '../pages/clinics/modal-clinic';
@@ -57,6 +58,7 @@ import { ScheduleServiceProvider } from '../providers/schedule-service/schedule-
     ModalPatientPage,
     HistoryPatientPage,
     ModalAppointmentPage,
+    ModalCalendarPage,
     AppointmentsPage,
     ClinicsPage,
     ModalClinicPage,
@@ -84,6 +86,7 @@ import { ScheduleServiceProvider } from '../providers/schedule-service/schedule-
     ModalPatientPage,
     HistoryPatientPage,
     ModalAppointmentPage,
+    ModalCalendarPage,
     AppointmentsPage,
     ClinicsPage,
     ModalClinicPage,

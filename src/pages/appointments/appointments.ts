@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController, ModalController, ToastController, ActionSheetController } from 'ionic-angular';
 import { ModalAppointmentPage } from '../appointments/modal-appointment';
+import { ModalCalendarPage } from '../appointments/modal-calendar';
 import { AppointmentServiceProvider } from '../../providers/appointment-service/appointment-service';
 import { NetworkServiceProvider } from '../../providers/network-service/network-service';
 import moment from 'moment'
@@ -17,6 +18,7 @@ export class AppointmentsPage {
   authUser: any;
   submitAttempt: boolean = false;
   currentPage: any = 1;
+  currentDate:any;
   lastPage: any = 1;
   constructor(public navCtrl: NavController, public navParams: NavParams, public appointmentService: AppointmentServiceProvider, public loadingCtrl: LoadingController, public modalCtrl: ModalController, public toastCtrl: ToastController, public actionSheetCtrl: ActionSheetController, public networkService: NetworkServiceProvider) {
 
@@ -41,7 +43,7 @@ export class AppointmentsPage {
 
       //this.medicSearchForm.get('page').setValue(this.currentPage + 1)
 
-      this.appointmentService.getAppointments(this.currentPage + 1)
+      this.appointmentService.getAppointments(this.currentPage + 1, this.currentDate)
       .then(data => {
         
         // console.log(data)
@@ -80,7 +82,28 @@ export class AppointmentsPage {
     }
 
   }
- 
+  clearDate(){
+    this.currentDate = '';
+    this.getAppointmentsFromUser();
+  }
+  showCalendarPage(){
+    
+    //this.navCtrl.push(ModalAppointmentPage, {appointment: appointment, patient: appointment.patient});
+    let modal = this.modalCtrl.create(ModalCalendarPage);
+    modal.onDidDismiss(data => {
+            console.log(data)
+            if (data){
+              this.currentDate = data.date;
+              this.getAppointmentsFromUser();
+            }
+              
+      
+          
+      
+          });
+          
+    modal.present();
+  }
   openAppointmentDetail(appointment){
     
     //this.navCtrl.push(ModalAppointmentPage, {appointment: appointment, patient: appointment.patient});
@@ -144,7 +167,7 @@ export class AppointmentsPage {
     });
 
     loader.present();
-    this.appointmentService.getAppointments(this.currentPage)
+    this.appointmentService.getAppointments(this.currentPage, this.currentDate)
       .then(data => {
         
         // console.log(data)

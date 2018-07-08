@@ -76,10 +76,11 @@ export class AppointmentServiceProvider {
 
        
     }
-    getAppointments(page) {
+    getAppointments(page, date = '') {
         
          let search = {
             page: page ? page : 1,
+            date: date,
              
           }
           

@@ -4,12 +4,20 @@
       <ion-title>Tus citas programadas</ion-title>
       <ion-buttons end>
         
-        <button ion-button (click)="goHome()" color="primary">
+          <button ion-button (click)="showCalendarPage()" icon-left>
+              <ion-icon name="calendar" item-start></ion-icon>
+                  
+          </button>
+      
+        <!-- <button ion-button (click)="goHome()" color="primary">
             
                 Ir a Inicio
-            </button>
+            </button> -->
       </ion-buttons>
   </ion-navbar>
+   <div class="date-bar" *ngIf='currentDate'>
+                Fecha seleccionada: {{ currentDate }}.  <a item-right clear (click)="clearDate()" color="light">quitar?</a>
+    </div>
 </ion-header>
 
 

@@ -15,6 +15,18 @@ page-appointments {
              }
         }
     }
+    .scroll-content{
+        padding-top: 40px !important;
+    }
+    .date-bar{
+        background:  map-get($colors, light);
+        //color:#000;
+        padding: 1rem .5rem;
+        text-align: center;
+        a {
+            color:map-get($colors, celeste);
+        }
+    }
    
     
 }
