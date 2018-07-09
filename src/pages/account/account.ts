@@ -8,6 +8,7 @@ import { Camera } from '@ionic-native/camera';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import { SERVER_URL } from '../../providers/config';
 import { NetworkServiceProvider } from '../../providers/network-service/network-service';
+import { normalizeURL } from 'ionic-angular';
 
 declare var cordova: any;
 
@@ -209,10 +210,11 @@ export class AccountPage {
   public takePicture(sourceType) {
     // Create options for the Camera Dialog
     var options = {
-      quality: 100,
+      quality: 50,
       sourceType: sourceType,
       saveToPhotoAlbum: false,
       correctOrientation: true
+      
     };
 
     // Get the data of an image
@@ -226,8 +228,10 @@ export class AccountPage {
             this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
           });
       } else {
-        var currentName = imagePath.substr(imagePath.lastIndexOf('/') + 1);
+
         var correctPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
+        var currentName = imagePath.substr(imagePath.lastIndexOf('/') + 1);
+        
         this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
       }
     }, (err) => {
@@ -249,9 +253,6 @@ export class AccountPage {
       
         this.lastImage = newFileName;
       
-      
-      console.log(newFileName)
-      
     }, error => {
       this.presentToast('Error while storing file.');
     });
@@ -272,7 +273,10 @@ export class AccountPage {
     if (img === null) {
       return '';
     } else {
-      return cordova.file.dataDirectory + img;
+      // console.log('cordova dataDirectory:' + cordova.file.dataDirectory + img)
+      // console.log('normalize cordova dataDirectory:' + normalizeURL(cordova.file.dataDirectory + img))
+      return normalizeURL(cordova.file.dataDirectory + img);
+     
     }
   }
 
