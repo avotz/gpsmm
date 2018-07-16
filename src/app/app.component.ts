@@ -28,105 +28,15 @@ export class MyApp {
 
   pages: Array<{title: string, component: any}>
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public alertCtrl: AlertController, public authService: AuthServiceProvider, public badge: Badge, public events: Events/*, public fcm: FCM*/) {
+  constructor(public platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public alertCtrl: AlertController, public authService: AuthServiceProvider, public badge: Badge, public events: Events/*, public fcm: FCM*/) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
+      this.registerPushFn();
+      
 
-     
-      if(platform.is('ios')){
-        FirebasePlugin.grantPermission(); //ios
-        FirebasePlugin.hasPermission(function(data){
-          console.log(data.isEnabled);
-        });
-
-      }
-      if(platform.is('cordova')){
-      FirebasePlugin.getToken(token => {
-        // save this server-side and use it to push notifications to this device
-
-        if (token) {
-          window.localStorage.setItem('push_token', token)
-          this.savePushToken(token)
-          console.log(token);
-          
-        }
-      }, (error) => {
-        console.error(error);
-        window.localStorage.setItem('push_token', '')
-      })
-
-      FirebasePlugin.onTokenRefresh(token => {
-        // save this server-side and use it to push notifications to this device
-
-        if (token) {
-          window.localStorage.setItem('push_token', token)
-          this.savePushToken(token)
-          console.log(token);
-          
-        }
-
-      }, (error) => {
-        console.error(error)
-        window.localStorage.setItem('push_token', '')
-      })
-
-      FirebasePlugin.onNotificationOpen(notification => {
-        console.log(notification)
-        if (!notification.tap) {
-          
-         
-          if(platform.is('ios')){
-            this.title = notification.aps.alert.title;
-            this.body = notification.aps.alert.body;
-          }else{
-            this.title = notification.title;
-            this.body = notification.body;
-          }
-
-          let confirm = this.alertCtrl.create({
-            title: this.title,
-            message: this.body,
-            buttons: [
-              {
-                text: 'Cerrar',
-                handler: () => {
-                  confirm.dismiss();
-                }
-              },
-              {
-                text: 'Ir a citas',
-                handler: () => {
-                  this.nav.push(AppointmentsPage);
-                }
-              }
-            ]
-          });
-          confirm.present();
-          // let alert = alertCtrl.create({
-          //   title: notification.title,
-          //   message: notification.body
-          // })
-          // alert.present()
-
-         
-        }
-       
-        this.badge.increase(1);
-        this.events.publish('notifications:updated', 1);
-
-      }, (error) => {
-        console.error(error);
-      })
-
-    }else{
-      console.log('firebase notification en chrome esta desabilitado')
-
-    }
-
-    });
 
     // used for an example of ngFor and navigation
     this.pages = [
@@ -140,6 +50,135 @@ export class MyApp {
     ];
    
     this.checkPreviousAuthorization(); 
+
+    }); //platform ready
+
+    
+  }// constructor
+
+  registerPushFn(): boolean {
+
+    if(! this.platform.is('cordova')){
+      console.log('firebase notification en chrome esta desabilitado')
+      return true;
+    }
+
+
+     if(this.platform.is('ios')){
+      
+          let self = this;
+          FirebasePlugin.hasPermission(function(data){
+            if(!data.isEnabled){
+                    console.log('no tiene permiso')
+                    FirebasePlugin.grantPermission(function(data){
+                      console.log('se le dio permiso y obtuvo token')
+                      return self.getTokenPush();
+                    })
+                  } else {
+                    console.log('tiene permiso')
+                    return self.getTokenPush();
+                  }
+          })
+        
+
+      }else{
+        return this.getTokenPush();
+      }
+    
+
+  }
+
+  getTokenPush(){
+
+    FirebasePlugin.getToken(token => {
+      //     // save this server-side and use it to push notifications to this device
+  
+          if (token) {
+            window.localStorage.setItem('push_token', token)
+            this.savePushToken(token)
+            console.log(token);
+            
+          }
+        }, (error) => {
+          console.error(error);
+          window.localStorage.setItem('push_token', '')
+        })
+  
+        FirebasePlugin.onTokenRefresh(token => {
+          // save this server-side and use it to push notifications to this device
+  
+          if (token) {
+            window.localStorage.setItem('push_token', token)
+            this.savePushToken(token)
+            console.log(token);
+            
+          }
+  
+        }, (error) => {
+          console.error(error)
+          window.localStorage.setItem('push_token', '')
+        })
+  
+        FirebasePlugin.onNotificationOpen(notification => {
+          console.log(notification)
+          if (!notification.tap) {
+            
+           
+            if(this.platform.is('ios')){
+              this.title = notification.aps.alert.title;
+              this.body = notification.aps.alert.body;
+            }else{
+              this.title = notification.title;
+              this.body = notification.body;
+            }
+            let buttons = [];
+  
+            if(notification.tipo == 'appointment'){
+               buttons = [
+                {
+                  text: 'Cerrar',
+                  handler: () => {
+                    confirm.dismiss();
+                  }
+                },
+                {
+                  text: 'Ir a citas',
+                  handler: () => {
+                    this.nav.push(AppointmentsPage);
+                  }
+                }];
+  
+            }else{
+              buttons = [
+                {
+                  text: 'Cerrar',
+                  handler: () => {
+                    confirm.dismiss();
+                  }
+                }];
+            }
+            
+  
+            let confirm = this.alertCtrl.create({
+              title: this.title,
+              message: this.body,
+              buttons: buttons
+            });
+            confirm.present();
+            
+           
+          }
+         
+          this.badge.increase(1);
+          this.events.publish('notifications:updated', 1);
+
+         
+  
+        }, (error) => {
+          console.error(error);
+        })
+
+        return true;
   }
 
   checkPreviousAuthorization(): void { 
