@@ -19,6 +19,7 @@ import { Badge } from '@ionic-native/badge';
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 registerLocaleData(localeEs);
+import { AppVersion } from '@ionic-native/app-version';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -75,7 +76,11 @@ import { ScheduleServiceProvider } from '../providers/schedule-service/schedule-
     BrowserModule,
     HttpModule,
     NgCalendarModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp, {
+      backButtonText: '',
+      
+    }),
+    
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -122,6 +127,7 @@ import { ScheduleServiceProvider } from '../providers/schedule-service/schedule-
     //FCM,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     {provide: LOCALE_ID, useValue: 'es-CR'},
+    AppVersion
   ]
 })
 export class AppModule {}

@@ -75,7 +75,7 @@ export class ModalClinicPage {
             let styleClass = 'success';
 
 
-            if (this.clinicForm.valid) {
+            if (this.clinicForm.valid && !this.isWaiting) {
 
 
                 this.isWaiting = true;

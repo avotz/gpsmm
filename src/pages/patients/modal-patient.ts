@@ -30,7 +30,7 @@ export class ModalPatientPage {
             last_name: [this.patient.last_name, Validators.required],
             birth_date: [this.patient.birth_date, Validators.required],
             gender: [this.patient.gender, Validators.required],
-            phone_country_code: [this.patient.phone_country_code, Validators.required],
+            phone_country_code: [this.patient.phone_country_code ? this.patient.phone_country_code : '+506', Validators.required],
             phone_number: [this.patient.phone_number, Validators.required],
             email: [this.patient.email],
             address: [this.patient.address],
@@ -53,7 +53,7 @@ export class ModalPatientPage {
             let styleClass = 'success';
 
 
-            if (this.patientForm.valid) {
+            if (this.patientForm.valid && !this.isWaiting) {
 
 
                 this.isWaiting = true;
@@ -95,8 +95,8 @@ export class ModalPatientPage {
                                 let body = JSON.parse(error._body)
                                 if (body.errors.email)
                                      errorSaveText = body.errors.email[0]
-                                if (body.errors.phone)
-                                    errorSaveTextPhone = body.errors.phone[0]
+                                if (body.errors.phone_number)
+                                    errorSaveTextPhone = body.errors.phone_number[0]
 
                                 message = message + errorSaveText + ' ' + errorSaveTextPhone
 

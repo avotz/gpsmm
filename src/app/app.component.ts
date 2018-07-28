@@ -3,6 +3,7 @@ import { Nav, Platform, AlertController, Events } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Badge } from '@ionic-native/badge';
+import { AppVersion } from '@ionic-native/app-version';
 //import { FCM } from '@ionic-native/fcm';
 
 import { LoginPage } from '../pages/login/login';
@@ -25,18 +26,21 @@ export class MyApp {
   rootPage:any = LoginPage;
   title = '';
   body = '';
+  versionApp = ''
 
   pages: Array<{title: string, component: any}>
 
-  constructor(public platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public alertCtrl: AlertController, public authService: AuthServiceProvider, public badge: Badge, public events: Events/*, public fcm: FCM*/) {
+  constructor(private appVersion: AppVersion, public platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public alertCtrl: AlertController, public authService: AuthServiceProvider, public badge: Badge, public events: Events/*, public fcm: FCM*/) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
+      this.getAppVersion();
       this.registerPushFn();
-      
 
+
+      
 
     // used for an example of ngFor and navigation
     this.pages = [
@@ -55,7 +59,19 @@ export class MyApp {
 
     
   }// constructor
+  getAppVersion():boolean{
 
+    if(! this.platform.is('cordova')){
+      console.log('App Version en chrome esta desabilitado')
+      return true;
+    }
+
+    this.appVersion.getVersionNumber().then( (data) =>{
+      this.versionApp = data;
+      console.log('vvv-' + data);
+    });
+
+  }
   registerPushFn(): boolean {
 
     if(! this.platform.is('cordova')){
