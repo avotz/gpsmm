@@ -42,7 +42,7 @@ export class HomePage {
   async getbadges(){
     try {
       this.notifications = await this.badge.get();
-      console.log(this.notifications);
+      console.log('badges--'+ this.notifications);
     } catch (error) {
       console.error(error)
     }
